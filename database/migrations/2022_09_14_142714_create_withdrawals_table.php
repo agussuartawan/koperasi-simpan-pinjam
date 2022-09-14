@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDepositsTable extends Migration
+class CreateWithdrawalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateDepositsTable extends Migration
      */
     public function up()
     {
-        Schema::create('deposits', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->nullable();
             $table->foreignId('member_id')->constrained()->onUpdate('cascade')->nullable();
             $table->date('date');
-            $table->string('deposit_type');
+            $table->string('withdrawal_type');
             $table->decimal('amount', $precission = 18, $scale = 2);
+            $table->integer('bank_interest');
+            $table->decimal('bank_interest_idr', $precission = 18, $scale = 2);
+            $table->decimal('total_amount', $precission = 18, $scale = 2);
+            $table->integer('term');
             $table->string('status');
             $table->timestamps();
         });
@@ -32,6 +36,6 @@ class CreateDepositsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deposits');
+        Schema::dropIfExists('withdrawals');
     }
 }
