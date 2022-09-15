@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembersTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_type_id')->constrained()->onUpdate('cascade');
             $table->string('code');
             $table->string("nik");
             $table->string('name');
             $table->text('address');
             $table->enum('gender', ['L', 'P']);
             $table->string('phone');
-            $table->boolean('status');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('clients');
     }
 }

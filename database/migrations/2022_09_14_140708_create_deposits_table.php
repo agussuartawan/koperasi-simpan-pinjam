@@ -15,12 +15,11 @@ class CreateDepositsTable extends Migration
     {
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->nullable();
-            $table->foreignId('member_id')->constrained()->onUpdate('cascade')->nullable();
+            $table->string('code');
+            $table->foreignId('client_type')->constrained()->onUpdate('cascade')->nullable();
             $table->date('date');
             $table->string('deposit_type');
             $table->decimal('amount', $precission = 18, $scale = 2);
-            $table->string('status');
             $table->timestamps();
         });
     }
