@@ -15,9 +15,8 @@ class CreateDepositBalancesTable extends Migration
     {
         Schema::create('deposit_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->nullable();
-            $table->foreignId('member_id')->constrained()->onUpdate('cascade')->nullable();
-            $table->decimal('balance_amount', $precission = 18, $scale = 2);
+            $table->foreignId('client_id')->constrained()->onUpdate('cascade')->nullable();
+            $table->decimal('amount', $precission = 18, $scale = 2);
             $table->timestamps();
         });
     }

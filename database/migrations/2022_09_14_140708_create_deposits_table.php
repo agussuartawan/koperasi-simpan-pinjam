@@ -16,7 +16,7 @@ class CreateDepositsTable extends Migration
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->foreignId('client_type')->constrained()->onUpdate('cascade')->nullable();
+            $table->foreignId('client_id')->constrained()->onUpdate('cascade')->nullable();
             $table->date('date');
             $table->string('deposit_type');
             $table->decimal('amount', $precission = 18, $scale = 2);

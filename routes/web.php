@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,16 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/test', function () {
+    return view('layouts.panel');
+});
+
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'can:akses user'], function () {
+        Route::resource('users', UserController::class)->except('destroy');
+    });
+});

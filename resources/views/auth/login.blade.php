@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>{{ env('APP_NAME') }} | Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -35,22 +35,32 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Koperasi Sehati</h1>
-                                </div>
-                                <form class="user">
+                                <img src="img/logo.png" class="rounded mx-auto d-block" width="150">
+                                <form method="POST" action="{{ route('login') }}">
+                                    @csrf
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                             id="exampleInputEmail" aria-describedby="emailHelp"
-                                            placeholder="Enter Email Address...">
+                                            placeholder="Masukan alamat email..." value="{{ old('email') }}"
+                                            name="email">
+                                        @error('email')
+                                            <span class="text-danger">
+                                                <small>{{ $message }}</small>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                            id="exampleInputPassword" placeholder="Password" name="password">
+                                        @error('password')
+                                            <span class="text-danger" role="alert">
+                                                <small>{{ $message }}</small>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
                                         Login
-                                    </a>
+                                    </button>
                                 </form>
                             </div>
                         </div>

@@ -15,7 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('debt_id')->constrained()->onUpdate('cascade');
             $table->string('code');
+            $table->date('payment_date');
+            $table->integer('payment_on');
+            $table->decimal('mulct', $precission = 18, $scale = 2);
+            $table->decimal('amount', $precission = 18, $scale = 2);
             $table->timestamps();
         });
     }
