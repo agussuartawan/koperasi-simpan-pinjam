@@ -27,7 +27,10 @@ Auth::routes();
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
+    // User
+	Route::get('roles-search', [UserController::class, 'searchRoles']);
     Route::group(['middleware' => 'can:akses user'], function () {
+		Route::get('user/get-list', [UserController::class, 'getUserList']);
         Route::resource('users', UserController::class)->except('destroy');
     });
 });
