@@ -13,7 +13,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item{{ request()->is('dashboard') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -24,7 +24,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses user')
-        <li class="nav-item">
+        <li class="nav-item{{ request()->is('users*') ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>User</span></a>
@@ -32,8 +32,8 @@
     @endcan
 
     @can('akses klien')
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+        <li class="nav-item{{ request()->is('clients*') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('clients.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Klien</span></a>
         </li>
@@ -41,7 +41,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses tabungan')
-        <li class="nav-item">
+        <li class="nav-item{{ request()->is('deposits*') ? ' active' : '' }}">
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Tabungan</span></a>
@@ -49,7 +49,7 @@
     @endcan
 
     @can('akses pinjaman')
-        <li class="nav-item">
+        <li class="nav-item{{ request()->is('loans*') ? ' active' : '' }}">
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-credit-card"></i>
                 <span>Pinjaman</span></a>

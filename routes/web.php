@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,9 +29,15 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 
 Route::group(['middleware' => 'auth'], function () {
     // User
-	Route::get('roles-search', [UserController::class, 'searchRoles']);
+    Route::get('roles-search', [UserController::class, 'searchRoles']);
     Route::group(['middleware' => 'can:akses user'], function () {
-		Route::get('user/get-list', [UserController::class, 'getUserList']);
+        Route::get('user/get-list', [UserController::class, 'getUserList']);
         Route::resource('users', UserController::class)->except('destroy');
+    });
+
+    // Client
+    Route::group(['middleware' => 'can:akses klien'], function () {
+        Route::get('client/get-list', [ClientController::class, 'getClientList']);
+        Route::resource('clients', ClientController::class);
     });
 });

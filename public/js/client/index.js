@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#user-table").DataTable({
+        var dTable = $("#client-table").DataTable({
             lengthChange: false,
             paging: true,
             serverSide: true,
@@ -26,17 +26,18 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "user/get-list",
+                url: "client/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
             },
             columns: [
+                { data: "code", name: "code" },
+                { data: "nik", name: "nik" },
                 { data: "name", name: "name" },
-                { data: "role", name: "role" },
-                { data: "email", name: "email" },
-                { data: "date_in", name: "date_in" },
-                { data: "date_out", name: "date_out" },
+                { data: "phone", name: "phone" },
+                { data: "client_type", name: "client_type" },
+                { data: "status", name: "status" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
@@ -80,14 +81,14 @@ $(function () {
     $(".modal-save").on("click", function (event) {
         event.preventDefault();
 
-        var form = $("#form-user"),
+        var form = $("#form-client"),
             url = form.attr("action"),
             method =
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
             message =
                 $("input[name=_method").val() == undefined
-                    ? "Data user berhasil ditambahkan"
-                    : "Data user berhasil diubah";
+                    ? "Data klien berhasil ditambahkan"
+                    : "Data klien berhasil diubah";
 
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
@@ -105,7 +106,7 @@ $(function () {
             success: function (response) {
                 showSuccessToast(message);
                 $("#modal").modal("hide");
-                $("#user-table").DataTable().ajax.reload();
+                $("#client-table").DataTable().ajax.reload();
             },
             error: function (xhr) {
                 showErrorToast();
@@ -128,8 +129,8 @@ fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/users/create") : url;
-    title === undefined ? (title = "Tambah User") : title;
+    url === undefined ? (url = "/clients/create") : url;
+    title === undefined ? (title = "Tambah Klien") : title;
 
     $(".modal-title").text(title);
 

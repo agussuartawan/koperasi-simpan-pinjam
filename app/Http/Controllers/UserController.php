@@ -15,22 +15,21 @@ class UserController extends Controller
     public function index()
     {
         return view('user.index');
-
     }
 
     public function getUserList(Request $request)
     {
-        $data  = User::where('id', '!=', 1)->where('id', '!=',  auth()->user()->id);
+        $data  = User::where('name', '!=', 'Super Admin')->where('id', '!=',  auth()->user()->id);
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = view('include.user.btn-action', compact('data'))->render();
                 return $action;
             })
-            ->addColumn('created_at', function($data){
+            ->addColumn('created_at', function ($data) {
                 return Carbon::parse($data->created_at)->isoFormat('DD MMMM Y');
             })
-            ->addColumn('role', function($data){
+            ->addColumn('role', function ($data) {
                 return $data->getRoleNames()[0] ?? '';
             })
             ->filter(function ($instance) use ($request) {
@@ -85,7 +84,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($request->password);
 
         $user = User::create($validated);
-        if($request->role){
+        if ($request->role) {
             $user->assignRole($validated['role']);
         }
 
@@ -99,7 +98,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        if($user->id == auth()->user()->id){
+        if ($user->id == auth()->user()->id) {
             return false;
         }
         $roles = Role::pluck('name', 'id');
@@ -108,7 +107,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        if($user->id == auth()->user()->id){
+        if ($user->id == auth()->user()->id) {
             return false;
         }
         $messages = [
@@ -132,16 +131,16 @@ class UserController extends Controller
         ], $messages);
 
         $user->update($validated);
-        if($request->role){
+        if ($request->role) {
             $user->syncRoles([$validated['role']]);
         }
 
         return $user;
     }
 
-    public function searchRoles(Request $request)
-    {
-        $search = $request->search;
-        return Role::where('name', 'LIKE', "%$search%")->where('name', '!=', 'Super Admin')->select('id', 'name')->get();
-    }
+    // public function searchRoles(Request $request)
+    // {
+    //     $search = $request->search;
+    //     return Role::where('name', 'LIKE', "%$search%")->where('name', '!=', 'Super Admin')->select('id', 'name')->get();
+    // }
 }

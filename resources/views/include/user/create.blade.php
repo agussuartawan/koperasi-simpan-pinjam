@@ -44,7 +44,7 @@
 
 <div class="form-group">
     <label for="role">{{ __('Jabatan') }}</label>
-    {!! Form::select('role', [], null, ['class' => 'form-control', 'id' => 'role']) !!}
+    {!! Form::select('role', $roles, null, ['class' => 'form-control custom-select', 'id' => 'role']) !!}
 </div>
 
 {!! Form::close() !!}

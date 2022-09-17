@@ -9,7 +9,21 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'nik',
+        'code',
+        'phone',
+        'address',
+        'gender',
+        'is_active',
+        'client_type_id',
+    ];
+
+    public function clientType()
+    {
+        return $this->belongsTo(ClientType::class);
+    }
 
     public const ANGGOTA = 1;
     public const NASABAH = 2;
