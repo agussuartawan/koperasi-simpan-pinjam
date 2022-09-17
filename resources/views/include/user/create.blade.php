@@ -40,7 +40,6 @@
             {!! Form::date('date_out', null, ['class' => 'form-control', 'id' => 'date_out']) !!}
         </div>
     </div>
-
 </div>
 
 <div class="form-group">
