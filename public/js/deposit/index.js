@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#user-table").DataTable({
+        var dTable = $("#deposit-table").DataTable({
             lengthChange: false,
             paging: true,
             serverSide: true,
@@ -26,29 +26,29 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "user/get-list",
+                url: "deposit/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
             },
             columns: [
-                { data: "name", name: "name" },
-                { data: "role", name: "role" },
-                { data: "email", name: "email" },
-                { data: "date_in", name: "date_in" },
-                { data: "date_out", name: "date_out" },
+                { data: "code", name: "code" },
+                { data: "client_name", name: "client_name" },
+                { data: "date", name: "date" },
+                { data: "deposit_type", name: "deposit_type" },
+                { data: "amount", name: "amountt", className: "text-right" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
+                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Setoran Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
-                },
+                }
             ],
             initComplete: function (settings, json) {
                 $('input[type="search"').unbind();
@@ -80,14 +80,14 @@ $(function () {
     $(".modal-save").on("click", function (event) {
         event.preventDefault();
 
-        var form = $("#form-user"),
+        var form = $("#form-deposit"),
             url = form.attr("action"),
             method =
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
             message =
                 $("input[name=_method").val() == undefined
-                    ? "Data user berhasil ditambahkan"
-                    : "Data user berhasil diubah";
+                    ? "Data setoran berhasil ditambahkan"
+                    : "Data setoran berhasil diubah";
 
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
@@ -105,7 +105,7 @@ $(function () {
             success: function (response) {
                 showSuccessToast(message);
                 $("#modal").modal("hide");
-                $("#user-table").DataTable().ajax.reload();
+                $("#deposit-table").DataTable().ajax.reload();
             },
             error: function (xhr) {
                 showErrorToast();
@@ -128,8 +128,8 @@ fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/users/create") : url;
-    title === undefined ? (title = "Tambah User") : title;
+    url === undefined ? (url = "/deposits/create") : url;
+    title === undefined ? (title = "Tambah Setoran") : title;
 
     $(".modal-title").text(title);
 

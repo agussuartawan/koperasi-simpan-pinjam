@@ -41,8 +41,8 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses tabungan')
-        <li class="nav-item{{ request()->is('deposits*') ? ' active' : '' }}">
-            <a class="nav-link" href="charts.html">
+        <li class="nav-item{{ request()->is('deposit-balances') || request()->is('deposit*') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('deposit.balances') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Tabungan</span></a>
         </li>

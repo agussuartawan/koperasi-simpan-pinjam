@@ -43,7 +43,7 @@ $(function () {
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: "Tambah",
+                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
                         $("#modal").modal("show");

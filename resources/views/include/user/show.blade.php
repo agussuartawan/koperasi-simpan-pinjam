@@ -13,7 +13,7 @@
             <span class="badge badge-success">{{ $user->getRoleNames()[0] }}</span>
         </h3>
         <p class="text-muted text-center">Bergabung sejak
-            {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</p>
+            {{ $user->created_at->diffForHumans() }}</p>
     </div>
 </div>
 <hr>

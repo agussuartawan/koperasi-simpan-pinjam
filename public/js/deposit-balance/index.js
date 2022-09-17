@@ -1,10 +1,8 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#user-table").DataTable({
+        var dTable = $("#deposit-balance-table").DataTable({
             lengthChange: false,
             paging: true,
-            serverSide: true,
-            processing: true,
             responsive: true,
             autoWidth: false,
             order: [[0, "desc"]],
@@ -25,39 +23,23 @@ $(function () {
                 loadingIndicator: false,
             },
             pagingType: "first_last_numbers",
-            ajax: {
-                url: "user/get-list",
-                data: function (d) {
-                    d.search = $('input[type="search"]').val();
-                },
-            },
-            columns: [
-                { data: "name", name: "name" },
-                { data: "role", name: "role" },
-                { data: "email", name: "email" },
-                { data: "date_in", name: "date_in" },
-                { data: "date_out", name: "date_out" },
-                { data: "action", name: "action", orderable: false },
-            ],
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
+                    text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Setoran`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $("#modal").modal("show");
-                        fillModal($(this));
+                        window.location.href = '/deposits';
+                    },
+                },
+                {
+                    text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Tarikan`,
+                    className: "btn btn-info",
+                    action: function (e, dt, node, config) {
+                        window.location.href = '/';
                     },
                 },
             ],
-            initComplete: function (settings, json) {
-                $('input[type="search"').unbind();
-                $('input[type="search"').bind("keyup", function (e) {
-                    if (e.keyCode == 13) {
-                        dTable.draw();
-                    }
-                });
-            },
         });
     });
 
@@ -80,14 +62,14 @@ $(function () {
     $(".modal-save").on("click", function (event) {
         event.preventDefault();
 
-        var form = $("#form-user"),
+        var form = $("#form-client"),
             url = form.attr("action"),
             method =
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
             message =
                 $("input[name=_method").val() == undefined
-                    ? "Data user berhasil ditambahkan"
-                    : "Data user berhasil diubah";
+                    ? "Data klien berhasil ditambahkan"
+                    : "Data klien berhasil diubah";
 
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
@@ -105,7 +87,7 @@ $(function () {
             success: function (response) {
                 showSuccessToast(message);
                 $("#modal").modal("hide");
-                $("#user-table").DataTable().ajax.reload();
+                $("#client-table").DataTable().ajax.reload();
             },
             error: function (xhr) {
                 showErrorToast();
@@ -128,8 +110,8 @@ fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/users/create") : url;
-    title === undefined ? (title = "Tambah User") : title;
+    url === undefined ? (url = "/clients/create") : url;
+    title === undefined ? (title = "Tambah Klien") : title;
 
     $(".modal-title").text(title);
 

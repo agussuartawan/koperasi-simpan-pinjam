@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DepositBalanceController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +41,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'can:akses klien'], function () {
         Route::get('client/get-list', [ClientController::class, 'getClientList']);
         Route::resource('clients', ClientController::class);
+    });
+
+    // Deposit
+    Route::group(['middleware' => 'can:akses tabungan'], function () {
+        Route::get('deposit-balances', DepositBalanceController::class)->name('deposit.balances');
+        Route::resource('deposits', DepositController::class);
+        Route::get('deposit/get-list', [DepositController::class, 'getDepositList']);
     });
 });

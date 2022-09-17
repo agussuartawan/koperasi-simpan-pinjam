@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Deposit;
-use App\Http\Requests\StoreDepositRequest;
-use App\Http\Requests\UpdateDepositRequest;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class DepositController extends Controller
 {
@@ -15,7 +16,37 @@ class DepositController extends Controller
      */
     public function index()
     {
-        //
+        return view('deposit.index');
+    }
+
+    public function getDepositList(Request $request)
+    {
+        $data  = Deposit::query();
+
+        return DataTables::of($data)
+            ->addColumn('action', function ($data) {
+                $action = view('include.deposit.btn-action', compact('data'))->render();
+                return $action;
+            })
+            ->addColumn('client_name', function ($data) {
+                return $data->client->name;
+            })
+            ->addColumn('amount', function ($data) {
+                return idr($data->amount);
+            })
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->search)) {
+                    $instance->where(function ($w) use ($request) {
+                        $search = $request->search;
+                        $w->orwhere('code', 'LIKE', "%$search%")
+                            ->orwhere('amount', 'LIKE', "%$search%");
+                    });
+                }
+
+                return $instance;
+            })
+            ->rawColumns(['action', 'client_name'])
+            ->make(true);
     }
 
     /**
@@ -25,7 +56,9 @@ class DepositController extends Controller
      */
     public function create()
     {
-        //
+        $deposit = new Deposit();
+        $clients = Client::pluck('name', 'id');
+        return view('include.deposit.create', compact('deposit', 'clients'));
     }
 
     /**
