@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientCreated;
 use App\Models\Client;
 use App\Models\ClientType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ClientController extends Controller
@@ -76,32 +78,37 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = [
-            'code.required' => 'Kode tidak boleh kosong!',
-            'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-            'code.unique' => 'Kode sudah digunakan!',
-            'nik.required' => 'NIK tidak boleh kosong!',
-            'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
-            'name.required' => 'Nama tidak boleh kosong!',
-            'name.max' => 'Nama tidak boleh melebihi 255 huruf!',
-            'phone.required' => 'No telp tidak boleh kosong!',
-            'gender.required' => 'Jenis kelamin tidak boleh kosong!',
-            'address.required' => 'Alamat masuk tidak boleh kosong!',
-            'client_type_id.required' => 'Tipe tidak boleh kosong!'
-        ];
+        DB::transaction(function () use ($request) {
+            $messages = [
+                'code.required' => 'Kode tidak boleh kosong!',
+                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
+                'code.unique' => 'Kode sudah digunakan!',
+                'nik.required' => 'NIK tidak boleh kosong!',
+                'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
+                'name.required' => 'Nama tidak boleh kosong!',
+                'name.max' => 'Nama tidak boleh melebihi 255 huruf!',
+                'phone.required' => 'No telp tidak boleh kosong!',
+                'gender.required' => 'Jenis kelamin tidak boleh kosong!',
+                'address.required' => 'Alamat masuk tidak boleh kosong!',
+                'client_type_id.required' => 'Tipe tidak boleh kosong!'
+            ];
 
-        $validated = $request->validate([
-            'code' => ['required', 'max:255'],
-            'nik' => ['required', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'gender' => ['required'],
-            'phone' => ['required'],
-            'address' => ['required'],
-            'client_type_id' => ['required'],
-        ], $messages);
+            $validated = $request->validate([
+                'code' => ['required', 'max:255', 'unique:clients,code'],
+                'nik' => ['required', 'max:255'],
+                'name' => ['required', 'string', 'max:255'],
+                'gender' => ['required'],
+                'phone' => ['required'],
+                'address' => ['required'],
+                'client_type_id' => ['required'],
+            ], $messages);
 
+            $client =  Client::create($validated);
 
-        return Client::create($validated);
+            event(new ClientCreated($client));
+
+            return $client;
+        });
     }
 
     /**
@@ -151,7 +158,7 @@ class ClientController extends Controller
         ];
 
         $validated = $request->validate([
-            'code' => ['required', 'max:255'],
+            'code' => ['required', 'max:255', 'unique:clients,code,' . $client->id],
             'nik' => ['required', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'gender' => ['required'],

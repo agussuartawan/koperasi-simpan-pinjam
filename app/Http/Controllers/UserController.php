@@ -32,6 +32,12 @@ class UserController extends Controller
             ->addColumn('role', function ($data) {
                 return $data->getRoleNames()[0] ?? '';
             })
+            ->addColumn('date_in', function ($data) {
+                return Carbon::parse($data->date_in)->format('d/m/Y');
+            })
+            ->addColumn('date_out', function ($data) {
+                return Carbon::parse($data->date_out)->format('d/m/Y');
+            })
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {
@@ -43,7 +49,7 @@ class UserController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'created_at', 'role'])
+            ->rawColumns(['action', 'created_at', 'role', 'date_in'])
             ->make(true);
     }
 

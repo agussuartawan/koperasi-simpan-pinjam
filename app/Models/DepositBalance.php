@@ -9,6 +9,8 @@ class DepositBalance extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['client_id', 'amount'];
+
     public function client()
     {
         return $this->belongsTo(Client::class);

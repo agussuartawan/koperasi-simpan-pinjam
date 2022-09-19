@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DepositCreated;
 use App\Models\Client;
 use App\Models\Deposit;
+use App\Models\DepositBalance;
 use App\Models\DepositType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class DepositController extends Controller
@@ -32,8 +36,14 @@ class DepositController extends Controller
             ->addColumn('client_name', function ($data) {
                 return $data->client->name;
             })
+            ->addColumn('deposit_type_name', function ($data) {
+                return $data->depositType->name;
+            })
             ->addColumn('amount', function ($data) {
                 return idr($data->amount);
+            })
+            ->addColumn('date', function ($data) {
+                return Carbon::parse($data->date)->format('d/m/Y');
             })
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->search)) {
@@ -46,7 +56,7 @@ class DepositController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name'])
+            ->rawColumns(['action', 'client_name', 'deposit_type_name'])
             ->make(true);
     }
 
@@ -58,8 +68,7 @@ class DepositController extends Controller
     public function create()
     {
         $deposit = new Deposit();
-        $deposit_types = DepositType::pluck('name', 'id');
-        return view('include.deposit.create', compact('deposit', 'deposit_types'));
+        return view('include.deposit.create', compact('deposit'));
     }
 
     /**
@@ -70,7 +79,31 @@ class DepositController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $messages = [
+                'code.required' => 'Kode tidak boleh kosong!',
+                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
+                'code.unique' => 'Kode sudah digunakan!',
+                'client_id.required' => 'Klien tidak boleh kosong!',
+                'date.required' => 'Tanggal tidak boleh kosong!',
+                'deposit_type_id.required' => 'Tipe setoran tidak boleh kosong!',
+                'amount.required' => 'Jumlah tidak boleh kosong!'
+            ];
+
+            $validated = $request->validate([
+                'code' => ['required', 'max:255', 'unique:deposits,code'],
+                'client_id' => ['required'],
+                'date' => ['required', 'string', 'max:255'],
+                'deposit_type_id' => ['required'],
+                'amount' => ['required'],
+            ], $messages);
+
+            $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
+
+            $deposit = Deposit::create($validated);
+
+            event(new DepositCreated($deposit));
+        });
     }
 
     /**
@@ -81,7 +114,7 @@ class DepositController extends Controller
      */
     public function show(Deposit $deposit)
     {
-        //
+        return view('include.deposit.show', compact('deposit'));
     }
 
     /**
@@ -92,7 +125,14 @@ class DepositController extends Controller
      */
     public function edit(Deposit $deposit)
     {
-        //
+        if ($deposit->client->client_type_id == Client::NASABAH) {
+            $deposit_type = DepositType::where('id', Deposit::SIMPANAN_SUKARELA)->pluck('name', 'id');
+        }
+        if ($deposit->client->client_type_id == Client::ANGGOTA) {
+            $deposit_type = DepositType::pluck('name', 'id');
+        }
+        $client = Client::pluck('name', 'id');
+        return view('include.deposit.edit', compact('deposit', 'deposit_type', 'client'));
     }
 
     /**
@@ -107,14 +147,14 @@ class DepositController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Deposit  $deposit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Deposit $deposit)
+    public function getDepositType(Request $request)
     {
-        //
+        $client = Client::find($request->client_id);
+        if ($client->client_type_id == Client::NASABAH) {
+            return DepositType::where('id', Deposit::SIMPANAN_SUKARELA)->pluck('name', 'id');
+        }
+        if ($client->client_type_id == Client::ANGGOTA) {
+            return DepositType::pluck('name', 'id');
+        }
     }
 }

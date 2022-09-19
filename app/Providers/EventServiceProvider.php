@@ -15,8 +15,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        // Registered::class => [
+        //     SendEmailVerificationNotification::class,
+        // ],
+        \App\Events\DepositCreated::class => [
+            \App\Listeners\IncrementDepositBalanceAfterDepositCreated::class,
+        ],
+        \App\Events\ClientCreated::class => [
+            \App\Listeners\CreateDepositBalanceAfterClientCreated::class,
         ],
     ];
 

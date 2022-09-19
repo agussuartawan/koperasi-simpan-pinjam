@@ -35,8 +35,8 @@ $(function () {
                 { data: "code", name: "code" },
                 { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
-                { data: "deposit_type", name: "deposit_type" },
-                { data: "amount", name: "amountt", className: "text-right" },
+                { data: "deposit_type_name", name: "deposit_type_name" },
+                { data: "amount", name: "amount", className: "text-right" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
@@ -183,6 +183,28 @@ makeSelectTwo = () => {
         },
         placeholder: "Cari klien",
         cache: true,
+    })
+    .on('select2:select', function(e){
+        var data = e.params.data.id;
+        $('#deposit_type').empty();
+        $.ajax({
+            url: '/deposit/deposit-type',
+            type: "GET",
+            dataType: "json",
+            data: {client_id:data},
+            success: function (response) {
+                $.each(response, function(id, name) {
+                    $('#deposit_type').append($('<option>', { 
+                        value: id,
+                        text : name 
+                    }));
+                });
+            },
+            error: function (xhr, status) {
+                $("#modal").modal("hide");
+                alert("Terjadi kesalahan");
+            },
+        });
     });
 };
 

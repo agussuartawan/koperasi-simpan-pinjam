@@ -47,7 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Deposit
     Route::group(['middleware' => 'can:akses tabungan'], function () {
         Route::get('deposit-balances', DepositBalanceController::class)->name('deposit.balances');
-        Route::resource('deposits', DepositController::class);
+        Route::resource('deposits', DepositController::class)->except('destroy');
         Route::get('deposit/get-list', [DepositController::class, 'getDepositList']);
+        Route::get('deposit/deposit-type', [DepositController::class, 'getDepositType']);
     });
 });

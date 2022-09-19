@@ -24,7 +24,7 @@
 
 <div class="form-group">
     <label for="deposit_type">{{ __('Tipe Setoran') }}</label>
-    {!! Form::select('deposit_type', $deposit_types, null, [
+    {!! Form::select('deposit_type_id', [], null, [
         'class' => 'form-control custom-select',
         'id' => 'deposit_type',
     ]) !!}
