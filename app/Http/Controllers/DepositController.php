@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Deposit;
+use App\Models\DepositType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -57,8 +58,8 @@ class DepositController extends Controller
     public function create()
     {
         $deposit = new Deposit();
-        $clients = Client::pluck('name', 'id');
-        return view('include.deposit.create', compact('deposit', 'clients'));
+        $deposit_types = DepositType::pluck('name', 'id');
+        return view('include.deposit.create', compact('deposit', 'deposit_types'));
     }
 
     /**
@@ -67,7 +68,7 @@ class DepositController extends Controller
      * @param  \App\Http\Requests\StoreDepositRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDepositRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -101,7 +102,7 @@ class DepositController extends Controller
      * @param  \App\Models\Deposit  $deposit
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDepositRequest $request, Deposit $deposit)
+    public function update(Request $request, Deposit $deposit)
     {
         //
     }

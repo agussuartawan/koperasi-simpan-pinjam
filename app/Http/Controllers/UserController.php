@@ -137,10 +137,4 @@ class UserController extends Controller
 
         return $user;
     }
-
-    // public function searchRoles(Request $request)
-    // {
-    //     $search = $request->search;
-    //     return Role::where('name', 'LIKE', "%$search%")->where('name', '!=', 'Super Admin')->select('id', 'name')->get();
-    // }
 }

@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Client
     Route::group(['middleware' => 'can:akses klien'], function () {
         Route::get('client/get-list', [ClientController::class, 'getClientList']);
+        Route::get('client/search', [ClientController::class, 'searchClient']);
         Route::resource('clients', ClientController::class);
     });
 

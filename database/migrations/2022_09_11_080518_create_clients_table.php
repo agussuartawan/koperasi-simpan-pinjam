@@ -22,7 +22,7 @@ class CreateClientsTable extends Migration
             $table->text('address');
             $table->enum('gender', ['L', 'P']);
             $table->string('phone');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

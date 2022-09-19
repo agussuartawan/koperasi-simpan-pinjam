@@ -48,7 +48,7 @@ $(function () {
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
-                }
+                },
             ],
             initComplete: function (settings, json) {
                 $('input[type="search"').unbind();
@@ -140,6 +140,7 @@ fillModal = (me) => {
         success: function (response) {
             $(".modal-body").html(response);
             makeSelectTwo();
+            makeCurrency();
         },
         error: function (xhr, status) {
             $("#modal").modal("hide");
@@ -156,31 +157,42 @@ showErrorToast = () => {
     Swal.fire("Opps!", "Terjadi kesalahan!", "error");
 };
 
-// makeSelectTwo = () => {
-//     $("select").select2({
-//         theme: "bootstrap4",
-//         ajax: {
-//             url: "/roles-search",
-//             dataType: "json",
-//             data: function (params) {
-//                 var query = {
-//                     search: params.term,
-//                 };
+makeSelectTwo = () => {
+    $("#client_id").select2({
+        theme: "bootstrap4",
+        ajax: {
+            url: "/client/search",
+            dataType: "json",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                };
 
-//                 return query;
-//             },
-//             processResults: function (data) {
-//                 return {
-//                     results: $.map(data, function (item) {
-//                         return {
-//                             text: item.name,
-//                             id: item.id,
-//                         };
-//                     }),
-//                 };
-//             },
-//         },
-//         placeholder: "Cari jabatan",
-//         cache: true,
-//     });
-// };
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id,
+                        };
+                    }),
+                };
+            },
+        },
+        placeholder: "Cari klien",
+        cache: true,
+    });
+};
+
+makeCurrency = () => {
+    $(".currency").maskMoney({
+        thousands: ".",
+        decimal: ",",
+        affixesStay: true,
+        precision: 0,
+        prefix: "Rp. ",
+        selectAllOnFocus: true,
+    });
+};

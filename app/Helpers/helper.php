@@ -1,7 +1,7 @@
 <?php
 
-function idr($angka)
+function idr($amount)
 {
-    $hasil = number_format($angka, 0, ',', '.');
-    return $hasil;
+    $result = number_format($amount, 2, ',', '.');
+    return 'Rp. ' . $result;
 }

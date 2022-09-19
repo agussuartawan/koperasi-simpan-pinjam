@@ -177,4 +177,10 @@ class ClientController extends Controller
     //     }
     //     return $client->delete();
     // }
+
+    public function searchClient(Request $request)
+    {
+        $search = $request->search;
+        return Client::where('name', 'LIKE', "%$search%")->select('id', 'name')->get();
+    }
 }
