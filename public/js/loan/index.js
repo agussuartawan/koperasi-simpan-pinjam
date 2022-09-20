@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#deposit-table").DataTable({
+        var dTable = $("#loan-table").DataTable({
             lengthChange: false,
             paging: true,
             serverSide: true,
@@ -26,7 +26,7 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "deposit/get-list",
+                url: "loan/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
@@ -35,14 +35,13 @@ $(function () {
                 { data: "code", name: "code" },
                 { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
-                { data: "deposit_type_name", name: "deposit_type_name" },
                 { data: "amount", name: "amount", className: "text-right" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Setoran Baru`,
+                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Peminjaman Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
                         $("#modal").modal("show");
@@ -86,8 +85,8 @@ $(function () {
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
             message =
                 $("input[name=_method").val() == undefined
-                    ? "Data setoran berhasil ditambahkan"
-                    : "Data setoran berhasil diubah";
+                    ? "Data peminjaman berhasil ditambahkan"
+                    : "Data peminjaman berhasil diubah";
 
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
@@ -122,14 +121,27 @@ $(function () {
             },
         });
     });
+
+    $('body').on('change', '#amount, #bank_interest', function(){
+        var amount = $('#amount').val(),
+            bank_interest = $('#bank_interest').val(),
+            total_count, bank_interest_rp;
+
+        bank_interest_rp = bankInterestCount(amount, bank_interest);
+        total_count = totalAmountCount(amount, bank_interest_rp);
+
+        $('#bank_interest_rp').val(bank_interest_rp);
+        $('#total_amount').val(total_count);
+        makeCurrency();
+    })
 });
 
 fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/deposits/create") : url;
-    title === undefined ? (title = "Tambah Setoran") : title;
+    url === undefined ? (url = "/loans/create") : url;
+    title === undefined ? (title = "Tambah Peminjaman") : title;
 
     $(".modal-title").text(title);
 
@@ -215,5 +227,26 @@ makeCurrency = () => {
         precision: 0,
         prefix: "Rp. ",
         selectAllOnFocus: true,
-    });
+    })
+    .trigger('mask.maskMoney');
 };
+
+totalAmountCount = (amount, bank_interest_rp) => {
+    var amount;
+
+    amount = amount.replace(/Rp. /g,"");
+    amount = amount.replace(/\./g, "");
+
+    return parseInt(amount) + parseInt(bank_interest_rp);
+}
+
+bankInterestCount = (amount, bank_interest) => {
+    var amount, bank_interest_rp;
+
+    amount = amount.replace(/Rp. /g,"");
+    amount = amount.replace(/\./g, "");
+
+    bank_interest_rp = amount * (bank_interest / 100);
+
+    return bank_interest_rp;
+}

@@ -5,17 +5,7 @@
         </div>
 
         <div class="col-lg-9">
-            <h6>: &ensp; {{ $deposit->code }}</h6>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-3">
-            <h6>Tipe Tabungan</h6>
-        </div>
-
-        <div class="col-lg-9">
-            <h6>: &ensp; {{ $deposit->depositType->name }}</h6>
+            <h6>: &ensp; {{ $withdrawal->code }}</h6>
         </div>
     </div>
 
@@ -25,8 +15,8 @@
         </div>
 
         <div class="col-lg-9">
-            <h6>: &ensp; {{ $deposit->client->name }} <div class="badge badge-info">
-                    {{ $deposit->client->clientType->name }}</div>
+            <h6>: &ensp; {{ $withdrawal->client->name }} <div class="badge badge-info">
+                    {{ $withdrawal->client->clientType->name }}</div>
             </h6>
         </div>
     </div>
@@ -37,17 +27,17 @@
         </div>
 
         <div class="col-lg-9">
-            <h6>: &ensp; {{ Carbon\Carbon::parse($deposit->date)->format('d/m/Y') }}</h6>
+            <h6>: &ensp; {{ Carbon\Carbon::parse($withdrawal->date)->format('d/m/Y') }}</h6>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-3">
-            <h6>Jumlah Setoran</h6>
+            <h6>Jumlah Tarikan</h6>
         </div>
 
         <div class="col-lg-9">
-            <h6>: &ensp; {{ idr($deposit->amount) }}</h6>
+            <h6>: &ensp; {{ idr($withdrawal->amount) }}</h6>
         </div>
     </div>
 </div>

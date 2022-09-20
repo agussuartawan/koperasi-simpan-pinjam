@@ -12,9 +12,16 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h3 mb-0 text-gray-800">
-            <a href="{{ route('deposit.balances') }}"><i class="fa fa-fw fa-arrow-circle-left" aria-hidden="true"></i></a>
             Setoran
         </h1>
+        <h6>
+            <button class="btn btn-sm btn-info" disabled><i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i>
+                Setoran</button>
+
+            <a href="{{ route('withdrawals.index') }}" class="btn btn-sm btn-info"><i class="fa fa-fw fa-arrow-circle-down"
+                    aria-hidden="true"></i>
+                Tarikan</a>
+        </h6>
     </div>
 
     <nav aria-label="breadcrumb">
@@ -38,7 +45,7 @@
                             <th>Kode Setoran</th>
                             <th>Nama Pelanggan</th>
                             <th>Tgl</th>
-                            <th>Tipe Setoran</th>
+                            <th>Tipe Tabungan</th>
                             <th>Jumlah</th>
                             <th>Aksi</th>
                         </tr>

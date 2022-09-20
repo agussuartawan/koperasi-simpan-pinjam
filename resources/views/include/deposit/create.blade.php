@@ -35,4 +35,9 @@
     {!! Form::text('amount', null, ['class' => 'form-control currency', 'id' => 'amount']) !!}
 </div>
 
+<div class="form-group">
+    <label for="description">{{ __('Keterangan') }}</label>
+    {!! Form::textarea('description', null, ['class' => 'form-control', 'id' => 'description', 'rows' => 1]) !!}
+</div>
+
 {!! Form::close() !!}

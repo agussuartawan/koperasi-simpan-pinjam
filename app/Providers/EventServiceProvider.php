@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\DepositCreated::class => [
             \App\Listeners\IncrementDepositBalanceAfterDepositCreated::class,
         ],
+        \App\Events\WithdrawalCreated::class => [
+            \App\Listeners\DecrementDepositBalanceAfterWithdrawalCreated::class,
+        ],
         \App\Events\ClientCreated::class => [
             \App\Listeners\CreateDepositBalanceAfterClientCreated::class,
         ],

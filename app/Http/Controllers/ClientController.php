@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ClientCreated;
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Models\DepositBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -189,5 +190,24 @@ class ClientController extends Controller
     {
         $search = $request->search;
         return Client::where('name', 'LIKE', "%$search%")->select('id', 'name')->get();
+    }
+
+    public function getBalance(Request $request)
+    {
+        $deposit = DepositBalance::where('client_id', $request->client_id)->select('amount')->first();
+        return idr($deposit->amount);
+    }
+
+    public function balanceCheck(Request $request)
+    {
+        $client_id = $request->client_id;
+        $amount_input =  preg_replace('/[Rp. ]/', '', $request->client_withdrawal_amount);
+
+        $client_balance = DepositBalance::where('client_id', $client_id)->select('amount')->first();
+
+        if ($amount_input > $client_balance->amount) {
+            abort(422);
+        }
+        return true;
     }
 }

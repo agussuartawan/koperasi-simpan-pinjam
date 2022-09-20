@@ -32,10 +32,7 @@
 
 <div class="form-group">
     <label for="amount">{{ __('Jumlah') }}</label>
-    {!! Form::text('amount', round($deposit->amount), [
-        'class' => 'form-control currency',
-        'id' => 'amount',
-    ]) !!}
+    {!! Form::text('amount', idr($deposit->amount), ['class' => 'form-control currency', 'id' => 'amount']) !!}
 </div>
 
 <div class="form-group">

@@ -20,6 +20,7 @@ class CreateDepositsTable extends Migration
             $table->string('code');
             $table->date('date');
             $table->decimal('amount', $precission = 18, $scale = 2);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

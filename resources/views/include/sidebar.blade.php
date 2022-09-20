@@ -41,7 +41,8 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses tabungan')
-        <li class="nav-item{{ request()->is('deposit-balances') || request()->is('deposit*') ? ' active' : '' }}">
+        <li
+            class="nav-item{{ request()->is('deposit-balances') || request()->is('deposit*') || request()->is('withdrawal*') ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('deposit.balances') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Tabungan</span></a>
@@ -49,8 +50,8 @@
     @endcan
 
     @can('akses pinjaman')
-        <li class="nav-item{{ request()->is('loans*') ? ' active' : '' }}">
-            <a class="nav-link" href="charts.html">
+        <li class="nav-item{{ request()->is('loans*') || request()->is('debts') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('debts') }}">
                 <i class="fas fa-fw fa-credit-card"></i>
                 <span>Pinjaman</span></a>
         </li>

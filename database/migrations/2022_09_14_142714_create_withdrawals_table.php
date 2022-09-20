@@ -20,6 +20,7 @@ class CreateWithdrawalsTable extends Migration
             $table->foreignId('deposit_balance_id')->constrained()->onUpdate('cascade');
             $table->date('date');
             $table->decimal('amount', $precission = 18, $scale = 2);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

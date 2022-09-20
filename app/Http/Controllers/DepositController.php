@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\DepositCreated;
 use App\Models\Client;
 use App\Models\Deposit;
-use App\Models\DepositBalance;
 use App\Models\DepositType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#deposit-balance-table").DataTable({
+        var dTable = $("#debt-table").DataTable({
             lengthChange: false,
             paging: true,
             responsive: true,
@@ -26,17 +26,17 @@ $(function () {
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Setoran`,
+                    text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Peminjaman`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        window.location.href = '/deposits';
+                        window.location.href = '/loans';
                     },
                 },
                 {
-                    text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Tarikan`,
+                    text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Pembayaran`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        window.location.href = '/withdrawals';
+                        window.location.href = '/payments';
                     },
                 },
             ],

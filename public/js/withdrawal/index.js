@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#deposit-table").DataTable({
+        var dTable = $("#withdrawal-table").DataTable({
             lengthChange: false,
             paging: true,
             serverSide: true,
@@ -26,7 +26,7 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "deposit/get-list",
+                url: "withdrawal/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
@@ -35,14 +35,14 @@ $(function () {
                 { data: "code", name: "code" },
                 { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
-                { data: "deposit_type_name", name: "deposit_type_name" },
+                // { data: "deposit_type_name", name: "deposit_type_name" },
                 { data: "amount", name: "amount", className: "text-right" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Setoran Baru`,
+                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tarikan Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
                         $("#modal").modal("show");
@@ -80,7 +80,7 @@ $(function () {
     $(".modal-save").on("click", function (event) {
         event.preventDefault();
 
-        var form = $("#form-deposit"),
+        var form = $("#form-withdrawal"),
             url = form.attr("action"),
             method =
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
@@ -105,7 +105,7 @@ $(function () {
             success: function (response) {
                 showSuccessToast(message);
                 $("#modal").modal("hide");
-                $("#deposit-table").DataTable().ajax.reload();
+                $("#withdrawal-table").DataTable().ajax.reload();
             },
             error: function (xhr) {
                 showErrorToast();
@@ -122,14 +122,48 @@ $(function () {
             },
         });
     });
+
+    $('body').on('focusout', '#amount', function(){
+        var value = $(this).val(),
+            client_id = $('#client_id').val();
+
+        $(".form-control").removeClass("is-invalid");
+        $(".invalid-feedback").remove();
+        $(".modal-save").removeAttr("disabled");
+
+        $.ajax({
+            url: '/client/balance-check',
+            method: 'get',
+            data: {
+                client_withdrawal_amount: value,
+                client_id: client_id
+            },
+            success: function (response) {
+                $(".modal-save").removeAttr("disabled");
+                $("#client_id").select2({
+                    theme: "bootstrap4",
+                    readonly: true
+                });
+            },
+            error: function (xhr) {
+                $("#amount")
+                    .addClass("is-invalid")
+                    .after(
+                        `<small class="invalid-feedback">Saldo tidak mencukupi</small>`
+                    )
+                    .focus();
+                $(".modal-save").attr("disabled", true);
+            },
+        });
+    });
 });
 
 fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/deposits/create") : url;
-    title === undefined ? (title = "Tambah Setoran") : title;
+    url === undefined ? (url = "/withdrawals/create") : url;
+    title === undefined ? (title = "Tambah Tarikan") : title;
 
     $(".modal-title").text(title);
 
@@ -186,24 +220,20 @@ makeSelectTwo = () => {
     })
     .on('select2:select', function(e){
         var data = e.params.data.id;
-        $('#deposit_type').empty();
         $.ajax({
-            url: '/deposit/deposit-type',
+            url: '/client/get-balance',
             type: "GET",
-            dataType: "json",
+            dataType: "text",
             data: {client_id:data},
             success: function (response) {
-                $.each(response, function(id, name) {
-                    $('#deposit_type').append($('<option>', { 
-                        value: id,
-                        text : name 
-                    }));
-                });
+                $('#client_balance').val(response);
             },
             error: function (xhr, status) {
                 alert("Terjadi kesalahan");
             },
         });
+
+        $("#amount").removeAttr("disabled");
     });
 };
 

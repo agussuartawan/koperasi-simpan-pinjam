@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\WithdrawalCreated;
 use App\Models\Withdrawal;
 use App\Http\Requests\StoreWithdrawalRequest;
 use App\Http\Requests\UpdateWithdrawalRequest;
+use App\Models\DepositBalance;
+use Carbon\Carbon;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WithdrawalController extends Controller
 {
@@ -15,7 +21,43 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        //
+        return view('withdrawal.index');
+    }
+
+    public function getWithdrawalList(Request $request)
+    {
+        $data  = Withdrawal::query();
+
+        return DataTables::of($data)
+            ->addColumn('action', function ($data) {
+                $action = view('include.withdrawal.btn-action', compact('data'))->render();
+                return $action;
+            })
+            ->addColumn('client_name', function ($data) {
+                return $data->client->name;
+            })
+            // ->addColumn('deposit_type_name', function ($data) {
+            //     return $data->deposit->depositType->name;
+            // })
+            ->addColumn('amount', function ($data) {
+                return idr($data->amount);
+            })
+            ->addColumn('date', function ($data) {
+                return Carbon::parse($data->date)->format('d/m/Y');
+            })
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->search)) {
+                    $instance->where(function ($w) use ($request) {
+                        $search = $request->search;
+                        $w->orwhere('code', 'LIKE', "%$search%")
+                            ->orwhere('amount', 'LIKE', "%$search%");
+                    });
+                }
+
+                return $instance;
+            })
+            ->rawColumns(['action', 'client_name', 'deposit_type_name'])
+            ->make(true);
     }
 
     /**
@@ -25,7 +67,8 @@ class WithdrawalController extends Controller
      */
     public function create()
     {
-        //
+        $withdrawal = new Withdrawal();
+        return view('include.withdrawal.create', compact('withdrawal'));
     }
 
     /**
@@ -34,9 +77,32 @@ class WithdrawalController extends Controller
      * @param  \App\Http\Requests\StoreWithdrawalRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreWithdrawalRequest $request)
+    public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $messages = [
+                'code.required' => 'Kode tidak boleh kosong!',
+                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
+                'code.unique' => 'Kode sudah digunakan!',
+                'client_id.required' => 'Klien tidak boleh kosong!',
+                'date.required' => 'Tanggal tidak boleh kosong!',
+                'amount.required' => 'Jumlah tidak boleh kosong!'
+            ];
+
+            $validated = $request->validate([
+                'code' => ['required', 'max:255', 'unique:withdrawals,code'],
+                'client_id' => ['required'],
+                'date' => ['required', 'string', 'max:255'],
+                'amount' => ['required'],
+            ], $messages);
+
+            $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
+            $validated['deposit_balance_id'] = DepositBalance::where('client_id', $request->client_id)->first()->id;
+
+            $withdrawal = Withdrawal::create($validated);
+
+            event(new WithdrawalCreated($withdrawal));
+        });
     }
 
     /**
@@ -47,7 +113,7 @@ class WithdrawalController extends Controller
      */
     public function show(Withdrawal $withdrawal)
     {
-        //
+        return view('include.withdrawal.show', compact('withdrawal'));
     }
 
     /**

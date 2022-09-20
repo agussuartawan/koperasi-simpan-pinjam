@@ -9,7 +9,7 @@ class Deposit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'client_id', 'date', 'deposit_type_id', 'amount'];
+    protected $fillable = ['code', 'client_id', 'date', 'deposit_type_id', 'amount', 'description'];
 
     public function client()
     {
