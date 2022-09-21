@@ -17,12 +17,13 @@ class CreateLoansTable extends Migration
             $table->id();
             $table->string('code');
             $table->foreignId('client_id')->constrained()->onUpdate('cascade')->nullable();
-            $table->foreignId('term')->constrained()->onUpdate('cascade')->nullable();
+            $table->foreignId('term_id')->constrained()->onUpdate('cascade')->nullable();
             $table->date('date');
             $table->decimal('amount', $precission = 18, $scale = 2);
             $table->integer('bank_interest');
             $table->decimal('bank_interest_idr', $precission = 18, $scale = 2);
             $table->decimal('total_amount', $precission = 18, $scale = 2);
+            $table->boolean('is_paid')->default(0);
             $table->timestamps();
         });
     }

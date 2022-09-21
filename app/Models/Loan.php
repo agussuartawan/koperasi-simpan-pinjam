@@ -24,4 +24,9 @@ class Loan extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function term()
+    {
+        return $this->belongsTo(Term::class);
+    }
 }

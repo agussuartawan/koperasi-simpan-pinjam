@@ -1,6 +1,6 @@
 $(function () {
     $(document).ready(function () {
-        var dTable = $("#loan-table").DataTable({
+        var dTable = $("#payment-table").DataTable({
             lengthChange: false,
             paging: true,
             serverSide: true,
@@ -26,7 +26,7 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "loan/get-list",
+                url: "payment/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
@@ -45,7 +45,7 @@ $(function () {
             dom: "<'row'<'col'B><'col'f>>tipr",
             buttons: [
                 {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Peminjaman Baru`,
+                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Pembayaran Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
                         $("#modal").modal("show");
@@ -83,14 +83,14 @@ $(function () {
     $(".modal-save").on("click", function (event) {
         event.preventDefault();
 
-        var form = $("#form-loan"),
+        var form = $("#form-payment"),
             url = form.attr("action"),
             method =
                 $("input[name=_method").val() == undefined ? "POST" : "PUT",
             message =
                 $("input[name=_method").val() == undefined
-                    ? "Data peminjaman berhasil ditambahkan"
-                    : "Data peminjaman berhasil diubah";
+                    ? "Data pembayaran berhasil ditambahkan"
+                    : "Data pembayaran berhasil diubah";
 
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
@@ -108,7 +108,7 @@ $(function () {
             success: function (response) {
                 showSuccessToast(message);
                 $("#modal").modal("hide");
-                $("#loan-table").DataTable().ajax.reload();
+                $("#payment-table").DataTable().ajax.reload();
             },
             error: function (xhr) {
                 showErrorToast();
@@ -145,8 +145,8 @@ fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/loans/create") : url;
-    title === undefined ? (title = "Tambah Peminjaman") : title;
+    url === undefined ? (url = "/payments/create") : url;
+    title === undefined ? (title = "Tambah Pembayaran") : title;
 
     $(".modal-title").text(title);
 
@@ -175,32 +175,56 @@ showErrorToast = () => {
 };
 
 makeSelectTwo = () => {
-    $("#client_id").select2({
-        theme: "bootstrap4",
-        ajax: {
-            url: "/client/search",
-            dataType: "json",
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                };
+    $("#client_id")
+        .select2({
+            theme: "bootstrap4",
+            ajax: {
+                url: "/client/search",
+                dataType: "json",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    };
 
-                return query;
+                    return query;
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id,
+                            };
+                        }),
+                    };
+                },
             },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id,
-                        };
-                    }),
-                };
-            },
-        },
-        placeholder: "Cari klien",
-        cache: true,
-    });
+            placeholder: "Cari klien",
+            cache: true,
+        })
+        .on("select2:select", function (e) {
+            var data = e.params.data.id;
+            $.ajax({
+                url: "/loan/get-loan-by-client",
+                type: "GET",
+                dataType: "json",
+                data: { client_id: data },
+                success: function (response) {
+                    $.each(response, function (id, data) {
+                        console.log(id);
+                        $("#loan_id").append(
+                            $("<option>", {
+                                value: id,
+                                text: data,
+                            })
+                        );
+                    });
+                },
+                error: function (xhr, status) {
+                    alert("Terjadi kesalahan");
+                },
+            });
+        });
 };
 
 makeCurrency = () => {

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoanCreated;
+use App\Http\Requests\StoreLoanRequest;
 use App\Models\Loan;
 use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class LoanController extends Controller
@@ -32,8 +35,8 @@ class LoanController extends Controller
             ->addColumn('client_name', function ($data) {
                 return $data->client->name;
             })
-            ->addColumn('amount', function ($data) {
-                return idr($data->amount);
+            ->addColumn('total_amount', function ($data) {
+                return idr($data->total_amount);
             })
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
@@ -43,7 +46,7 @@ class LoanController extends Controller
                     $instance->where(function ($w) use ($request) {
                         $search = $request->search;
                         $w->orwhere('code', 'LIKE', "%$search%")
-                            ->orwhere('amount', 'LIKE', "%$search%");
+                            ->orwhere('total_amount', 'LIKE', "%$search%");
                     });
                 }
 
@@ -71,9 +74,19 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLoanRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validated = $request->validated();
+
+            $validated['amount'] = (float)preg_replace('/[Rp. ]/', '', $request->amount);
+            $validated['bank_interest_idr'] = $validated['amount'] * (float)($validated['bank_interest'] / 100);
+            $validated['total_amount'] = $validated['amount'] + $validated['bank_interest_idr'];
+
+            $loan = Loan::create($validated);
+
+            event(new LoanCreated($loan));
+        });
     }
 
     /**
@@ -108,5 +121,24 @@ class LoanController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function getLoanByClient(Request $request)
+    {
+        $client_id = $request->client_id;
+
+        $loans = Loan::where('client_id', $client_id)->where('is_paid', 0);
+        if($loans->exists()){
+            $loans = $loans->select('id', 'code', 'total_amount')->get();
+
+            foreach ($loans as $loan) {
+                $loans = [
+                    'id' => $loan->id,
+                    'data' => $loan->code . ' | ' . idr($loan->total_amount)
+                ];
+            }
+            return $loans; 
+        }
+        return;
     }
 }

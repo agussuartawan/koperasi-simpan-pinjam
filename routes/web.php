@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,8 +74,11 @@ Route::group(['middleware' => 'auth'], function () {
         //Loans
         Route::resource('loans', LoanController::class);
         Route::get('loan/get-list', [LoanController::class, 'getLoanList']);
-
+        Route::get('loan/get-loan-by-client', [LoanController::class, 'getLoanByClient']);
+        
         //Payment
         Route::resource('payments', PaymentController::class);
+        Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);
+        Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
     });
 });
