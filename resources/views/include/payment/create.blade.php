@@ -1,7 +1,7 @@
 {!! Form::model($payment, [
     'route' => 'payments.store',
     'method' => 'POST',
-    'id' => 'form-loan',
+    'id' => 'form-payment',
 ]) !!}
 
 <div class="form-group">
@@ -24,6 +24,7 @@
             {!! Form::select('loan_id', [], null, [
                 'class' => 'form-control custom-select',
                 'id' => 'loan_id',
+                'placeholder' => 'Pilih hutang klien',
             ]) !!}
         </div>
     </div>
@@ -55,18 +56,17 @@
         </div>
 
         <div class="col-lg-6">
-            <label for="mulct">{{ __('Denda') }}</label>
-            {!! Form::text('mulct', null, [
-                'class' => 'form-control currency',
+            <label for="mulct">{{ __('Denda(%)') }}</label>
+            {!! Form::number('mulct', 0, [
+                'class' => 'form-control',
                 'id' => 'mulct',
-                'disabled' => true,
             ]) !!}
         </div>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="total_amount">{{ __('Jumlah Total') }}</label>
+    <label for="total_amount">{{ __('Jumlah yang harus dibayarkan') }}</label>
     {!! Form::text('total_amount', null, [
         'class' => 'form-control currency',
         'id' => 'total_amount',

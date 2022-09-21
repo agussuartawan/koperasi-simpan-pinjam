@@ -36,8 +36,8 @@ $(function () {
                 { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
                 {
-                    data: "total_amount",
-                    name: "total_amount",
+                    data: "amount",
+                    name: "amount",
                     className: "text-right",
                 },
                 { data: "action", name: "action", orderable: false },
@@ -48,6 +48,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Pembayaran Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
+                        $('.modal-save').show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -68,6 +69,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
+        $('.modal-save').hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -76,6 +78,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
+        $('.modal-save').show();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -137,6 +140,41 @@ $(function () {
 
         $("#bank_interest_rp").val(bank_interest_rp);
         $("#total_amount").val(total_count);
+        makeCurrency();
+    });
+
+    $('body').on('change', '#loan_id', function() {
+        var loan_id = $(this).val();
+        $.ajax({
+            url: '/payment/payment-check',
+            type: "GET",
+            dataType: "json",
+            data: {
+                loan_id: loan_id
+            },
+            success: function (response) {
+                $('#installment').val(response.installment);
+                $('#amount').val(response.payment_amount);
+                $('#total_amount').val(response.payment_amount);
+                makeCurrency();
+            },
+            error: function (xhr, status) {
+                alert("Terjadi kesalahan");
+            },
+        });
+    })
+
+    $('body').on('change', '#mulct', function(){
+        var mulct = $(this).val(),
+            amount = $('#amount').val(),
+            total_amount;
+
+        amount = amount.replace(/Rp. /g, "");
+        amount = amount.replace(/\./g, "");
+
+        mulct = parseFloat(amount) * (mulct / 100);
+        total_amount = parseFloat(amount) + parseFloat(mulct);
+        $('#total_amount').val(total_amount);
         makeCurrency();
     });
 });
@@ -211,7 +249,6 @@ makeSelectTwo = () => {
                 data: { client_id: data },
                 success: function (response) {
                     $.each(response, function (id, data) {
-                        console.log(id);
                         $("#loan_id").append(
                             $("<option>", {
                                 value: id,
@@ -221,7 +258,7 @@ makeSelectTwo = () => {
                     });
                 },
                 error: function (xhr, status) {
-                    alert("Terjadi kesalahan");
+                    alert("Klien tersebut tidak memiliki hutang");
                 },
             });
         });

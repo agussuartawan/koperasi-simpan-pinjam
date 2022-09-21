@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
 use App\Models\ClientType;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,16 @@ class ClientSeeder extends Seeder
 
         ClientType::create([
             'name' => 'Nasabah',
+        ]);
+
+        Client::create([
+            'code' => 'AGT001',
+            'name' => 'Marselina',
+            'nik' => '0',
+            'address' => 'Denpasar',
+            'gender' => 'P',
+            'phone' => '0361',
+            'client_type_id' => 1
         ]);
     }
 }

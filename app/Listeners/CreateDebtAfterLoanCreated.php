@@ -29,13 +29,12 @@ class CreateDebtAfterLoanCreated
     {
         $loan = $event->loan;
         $debt = Debt::where('client_id', $loan->client_id);
-        if(!$debt->exists()){
+        if (!$debt->exists()) {
             Debt::create([
                 'client_id' => $loan->client_id,
                 'amount' => $loan->total_amount
             ]);
-        }
-        if($debt->exists()){
+        } else {
             $debt->increment('amount', $loan->total_amount);
         }
     }

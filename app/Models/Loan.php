@@ -17,7 +17,8 @@ class Loan extends Model
         'bank_interest_idr',
         'term_id',
         'amount',
-        'total_amount'
+        'total_amount',
+        ''
     ];
 
     public function client()

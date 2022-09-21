@@ -70,4 +70,21 @@
             <h6>: &ensp; {{ $loan->term->description }}</h6>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <h6>Status</h6>
+        </div>
+
+        <div class="col-lg-9">
+            <h6>
+                : &ensp;
+                @if ($loan->is_paid == 1)
+                    <div class="badge badge-success">Lunas</div>
+                @else
+                    <div class="badge badge-secondary">Belum Lunas</div>
+                @endif
+            </h6>
+        </div>
+    </div>
 </div>

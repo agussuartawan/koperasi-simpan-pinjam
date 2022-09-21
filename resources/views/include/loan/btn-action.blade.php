@@ -1,5 +1,5 @@
 <div class="text-center">
-    <a href="{{ route('payments.show', $data->id) }}" class="mr-2 btn btn-info btn-circle btn-sm btn-show"
+    <a href="{{ route('loans.show', $data->id) }}" class="mr-2 btn btn-info btn-circle btn-sm btn-show"
         title="Detail {{ $data->code }}">
         <i class="fa fa-info-circle" aria-hidden="true"></i>
     </a>

@@ -98,6 +98,7 @@ class WithdrawalController extends Controller
 
             $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
             $validated['deposit_balance_id'] = DepositBalance::where('client_id', $request->client_id)->first()->id;
+            $validated['description'] = $request->description;
 
             $withdrawal = Withdrawal::create($validated);
 

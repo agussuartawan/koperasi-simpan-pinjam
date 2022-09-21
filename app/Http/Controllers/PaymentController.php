@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PaymentCreated;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\Debt;
 use App\Models\Loan;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PaymentController extends Controller
@@ -34,8 +36,8 @@ class PaymentController extends Controller
             ->addColumn('client_name', function ($data) {
                 return $data->client->name;
             })
-            ->addColumn('total_amount', function ($data) {
-                return idr($data->total_amount);
+            ->addColumn('amount', function ($data) {
+                return idr($data->amount);
             })
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
@@ -51,7 +53,7 @@ class PaymentController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name'])
+            ->rawColumns(['action', 'client_name', 'amount'])
             ->make(true);
     }
 
@@ -74,7 +76,31 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validated = $request->validated();
+
+            $debt_id = Debt::where('client_id', $validated['client_id'])->first()->id;
+            $loan = Loan::where('id', $validated['loan_id'])->first();
+            $payment_on = Payment::where('loan_id', $validated['loan_id'])->count() + 1;
+            $amount = (float)$loan->total_amount / (float)$loan->term->term_day;
+
+            $mulct = (float)$validated['mulct'];
+            $mulct_idr = $amount * ($mulct / 100);
+            $total_amount = $amount + $mulct_idr;
+
+            $validated['mulct_idr'] = $mulct_idr;
+            $validated['payment_on'] = $payment_on;
+            $validated['amount'] = $total_amount;
+            $validated['debt_id'] = $debt_id;
+
+            $payment = Payment::create($validated);
+
+            if ($payment->payment_on == $loan->term->term_day) {
+                $loan->is_paid = 1;
+                $loan->save();
+            }
+            event(new PaymentCreated($payment));
+        });
     }
 
     /**
@@ -124,9 +150,16 @@ class PaymentController extends Controller
 
     public function paymentCheck(Request $request)
     {
-        $client_id = $request->client_id;
+        $loan_id = $request->loan_id;
 
-        $Loan = Loan::where('client_id', $client_id)->first();
-        
+        $loan = Loan::where('id', $loan_id)->first();
+
+        $payment_count = Payment::where('loan_id', $loan_id)->count() + 1;
+        $payment_amount = (float)$loan->total_amount / (float)$loan->term->term_day;
+
+        return  [
+            'installment' => $payment_count,
+            'payment_amount' => $payment_amount,
+        ];
     }
 }

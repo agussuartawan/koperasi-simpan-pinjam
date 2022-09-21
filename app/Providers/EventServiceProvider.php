@@ -30,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\LoanCreated::class => [
             \App\Listeners\CreateDebtAfterLoanCreated::class,
         ],
+        \App\Events\PaymentCreated::class => [
+            \App\Listeners\DecrementDebtAfterPaymentCreated::class,
+        ],
     ];
 
     /**

@@ -98,6 +98,7 @@ class DepositController extends Controller
             ], $messages);
 
             $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
+            $validated['description'] = $request->description;
 
             $deposit = Deposit::create($validated);
 

@@ -128,16 +128,16 @@ class LoanController extends Controller
         $client_id = $request->client_id;
 
         $loans = Loan::where('client_id', $client_id)->where('is_paid', 0);
-        if($loans->exists()){
+        if ($loans->exists()) {
             $loans = $loans->select('id', 'code', 'total_amount')->get();
-
-            foreach ($loans as $loan) {
-                $loans = [
-                    'id' => $loan->id,
-                    'data' => $loan->code . ' | ' . idr($loan->total_amount)
+            return $loans->map(function ($loan) {
+                return [
+                    'id'    => $loan->id,
+                    'text'  => $loan->code . ' | ' . idr($loan->total_amount)
                 ];
-            }
-            return $loans; 
+            })
+                ->pluck('text', 'id')
+                ->all();
         }
         return;
     }

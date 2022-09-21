@@ -50,4 +50,14 @@
             <h6>: &ensp; {{ idr($deposit->amount) }}</h6>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <h6>Keterangan</h6>
+        </div>
+
+        <div class="col-lg-9">
+            <h6>: &ensp; {{ $deposit->description }}</h6>
+        </div>
+    </div>
 </div>

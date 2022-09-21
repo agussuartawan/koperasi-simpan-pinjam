@@ -46,6 +46,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
+                        $('.modal-save').show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -66,6 +67,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
+        $('.modal-save').hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -74,6 +76,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
+        $('.modal-save').show();
         $("#modal").modal("show");
         fillModal(me);
     });

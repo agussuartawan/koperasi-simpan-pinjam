@@ -68,14 +68,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Deposit
     Route::group(['middleware' => 'can:akses pinjaman'], function () {
-        //Deposit balance
+        //Debt
         Route::get('debts', DebtController::class)->name('debts');
 
         //Loans
         Route::resource('loans', LoanController::class);
         Route::get('loan/get-list', [LoanController::class, 'getLoanList']);
         Route::get('loan/get-loan-by-client', [LoanController::class, 'getLoanByClient']);
-        
+
         //Payment
         Route::resource('payments', PaymentController::class);
         Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);

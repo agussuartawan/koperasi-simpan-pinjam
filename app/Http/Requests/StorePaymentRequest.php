@@ -13,7 +13,7 @@ class StorePaymentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,28 @@ class StorePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code' => ['required', 'max:20', 'unique:payments,code'],
+            'client_id' => ['required'],
+            'loan_id' => ['required'],
+            'date' => [
+                'required',
+                'date'
+            ],
+            'mulct' => ['required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'code.required' => 'Kode tidak boleh kosong!',
+            'code.max' => 'Kode tidak boleh lebih dari 20 karakter!',
+            'code.unique' => 'Kode sudah digunakan!',
+            'client_id.required' => 'Klien tidak boleh kosong!',
+            'loan_id.required' => 'Mohon pilih hutang klien!',
+            'date.required' => 'Tanggal tidak boleh kosong!',
+            'date.date' => 'Format tanggal tidak sesuai!',
+            'mulct.required' => 'Denda tidak boleh kosong!',
         ];
     }
 }

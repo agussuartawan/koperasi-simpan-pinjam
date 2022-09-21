@@ -29,7 +29,12 @@ class IncrementDepositBalanceAfterDepositCreated
     {
         $deposit = $event->deposit;
         $deposit_balance = DepositBalance::where('client_id', $deposit->client_id);
-        if ($deposit_balance->exists()) {
+        if (!$deposit_balance->exists()) {
+            DepositBalance::create([
+                'client_id' => $deposit->client_id,
+                'amount' => $deposit->amount
+            ]);
+        } else {
             $deposit_balance->increment('amount', $deposit->amount);
         }
     }
