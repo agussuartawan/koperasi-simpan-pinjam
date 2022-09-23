@@ -30,4 +30,9 @@ class Loan extends Model
     {
         return $this->belongsTo(Term::class);
     }
+
+    public function paymentOverdue()
+    {
+        return $this->hasMany(PaymentOverdue::class);
+    }
 }

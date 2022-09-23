@@ -59,8 +59,8 @@
     @endcan
 
     @can('akses tunggakan')
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+        <li class="nav-item{{ request()->is('arrears*') ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('arrears.index') }}">
                 <i class="fas fa-fw fa-credit-card"></i>
                 <span>Tunggakan</span></a>
         </li>

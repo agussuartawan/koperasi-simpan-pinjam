@@ -159,32 +159,3 @@ showSuccessToast = (message) => {
 showErrorToast = () => {
     Swal.fire("Opps!", "Terjadi kesalahan!", "error");
 };
-
-// makeSelectTwo = () => {
-//     $("select").select2({
-//         theme: "bootstrap4",
-//         ajax: {
-//             url: "/roles-search",
-//             dataType: "json",
-//             data: function (params) {
-//                 var query = {
-//                     search: params.term,
-//                 };
-
-//                 return query;
-//             },
-//             processResults: function (data) {
-//                 return {
-//                     results: $.map(data, function (item) {
-//                         return {
-//                             text: item.name,
-//                             id: item.id,
-//                         };
-//                     }),
-//                 };
-//             },
-//         },
-//         placeholder: "Cari jabatan",
-//         cache: true,
-//     });
-// };

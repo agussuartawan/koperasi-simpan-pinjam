@@ -84,7 +84,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //Arrears
-    Route::group(['middleware' => 'can:akses tunggakan'], function(){
-        Route::get('arrears', ArearsController::class)->name('arears.index');
+    Route::group(['middleware' => 'can:akses tunggakan'], function () {
+        Route::get('arrears', [ArearsController::class, 'index'])->name('arrears.index');
+        Route::get('arrears/{loan}', [ArearsController::class, 'show'])->name('arrears.show');
     });
 });
