@@ -36,8 +36,8 @@ $(function () {
                 { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
                 {
-                    data: "amount",
-                    name: "amount",
+                    data: "total_amount",
+                    name: "total_amount",
                     className: "text-right",
                 },
                 { data: "action", name: "action", orderable: false },
@@ -48,7 +48,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Pembayaran Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $('.modal-save').show();
+                        $(".modal-save").show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -69,7 +69,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').hide();
+        $(".modal-save").hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -78,7 +78,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').show();
+        $(".modal-save").show();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -143,30 +143,30 @@ $(function () {
         makeCurrency();
     });
 
-    $('body').on('change', '#loan_id', function() {
+    $("body").on("change", "#loan_id", function () {
         var loan_id = $(this).val();
         $.ajax({
-            url: '/payment/payment-check',
+            url: "/payment/payment-check",
             type: "GET",
             dataType: "json",
             data: {
-                loan_id: loan_id
+                loan_id: loan_id,
             },
             success: function (response) {
-                $('#installment').val(response.installment);
-                $('#amount').val(response.payment_amount);
-                $('#total_amount').val(response.payment_amount);
+                $("#installment").val(response.installment);
+                $("#amount").val(response.payment_amount);
+                $("#total_amount").val(response.payment_amount);
                 makeCurrency();
             },
             error: function (xhr, status) {
                 alert("Terjadi kesalahan");
             },
         });
-    })
+    });
 
-    $('body').on('change', '#mulct', function(){
+    $("body").on("change", "#mulct", function () {
         var mulct = $(this).val(),
-            amount = $('#amount').val(),
+            amount = $("#amount").val(),
             total_amount;
 
         amount = amount.replace(/Rp. /g, "");
@@ -174,7 +174,7 @@ $(function () {
 
         mulct = parseFloat(amount) * (mulct / 100);
         total_amount = parseFloat(amount) + parseFloat(mulct);
-        $('#total_amount').val(total_amount);
+        $("#total_amount").val(total_amount);
         makeCurrency();
     });
 });

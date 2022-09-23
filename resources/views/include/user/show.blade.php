@@ -41,6 +41,6 @@
     </div>
     <div class="col text-center">
         <h6>Tanggal keluar</h6>
-        <h6>{{ $user->date_out }}</h6>
+        <h6>{{ $user->date_out ?? '-' }}</h6>
     </div>
 </div>

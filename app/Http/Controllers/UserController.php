@@ -36,7 +36,10 @@ class UserController extends Controller
                 return Carbon::parse($data->date_in)->format('d/m/Y');
             })
             ->addColumn('date_out', function ($data) {
-                return Carbon::parse($data->date_out)->format('d/m/Y');
+                if ($data->date_out) {
+                    return Carbon::parse($data->date_out)->format('d/m/Y');
+                }
+                return '-';
             })
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->search)) {
@@ -49,7 +52,7 @@ class UserController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'created_at', 'role', 'date_in'])
+            ->rawColumns(['action', 'created_at', 'role', 'date_in', 'date_out'])
             ->make(true);
     }
 
@@ -75,7 +78,7 @@ class UserController extends Controller
             'password.confirmed' => 'Password tidak cocok!',
             'role.required' => 'Hak akses tidak boleh kosong!',
             'date_in.required' => 'Tanggal masuk tidak boleh kosong!',
-            'date_out.required' => 'Tanggal keluar tidak boleh kosong!'
+            'date_in.date' => 'Format Tanggal masuk tidak sesuai!',
         ];
 
         $validated = $request->validate([
@@ -84,7 +87,6 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required'],
             'date_in' => ['required', 'date'],
-            'date_out' => ['required', 'date']
         ], $messages);
 
         $validated['password'] = Hash::make($request->password);
@@ -125,7 +127,8 @@ class UserController extends Controller
             'email.unique' => 'Email tidak tersedia!',
             'role.required' => 'Hak akses tidak boleh kosong!',
             'date_in.required' => 'Tanggal masuk tidak boleh kosong!',
-            'date_out.required' => 'Tanggal keluar tidak boleh kosong!'
+            'date_in.date' => 'Format Tanggal masuk tidak sesuai!',
+            'date_out.date' => 'Format Tanggal keluar tidak sesuai!',
         ];
 
         $validated = $request->validate([
@@ -133,7 +136,7 @@ class UserController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'role' => ['required'],
             'date_in' => ['required', 'date'],
-            'date_out' => ['required', 'date']
+            'date_out' => ['date']
         ], $messages);
 
         $user->update($validated);

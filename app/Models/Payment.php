@@ -9,7 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'client_id', 'debt_id', 'loan_id', 'date', 'payment_on', 'mulct', 'mulct_idr', 'amount'];
+    protected $fillable = ['code', 'client_id', 'debt_id', 'loan_id', 'date', 'payment_on', 'mulct', 'mulct_idr', 'amount', 'total_amount'];
 
     public function client()
     {

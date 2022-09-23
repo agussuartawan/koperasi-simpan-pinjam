@@ -21,9 +21,10 @@ class CreatePaymentsTable extends Migration
             $table->string('code');
             $table->date('date');
             $table->integer('payment_on');
+            $table->decimal('amount', $precission = 18, $scale = 2);
             $table->integer('mulct');
             $table->decimal('mulct_idr', $precission = 18, $scale = 2);
-            $table->decimal('amount', $precission = 18, $scale = 2);
+            $table->decimal('total_amount', $precission = 18, $scale = 2);
             $table->timestamps();
         });
     }

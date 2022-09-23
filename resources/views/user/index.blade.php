@@ -33,7 +33,7 @@
                             <th>Jabatan</th>
                             <th>Email</th>
                             <th>Tanggal Masuk</th>
-                            <th>Tanggal Masuk</th>
+                            <th>Tanggal Keluar</th>
                             <th width="15%">Aksi</th>
                         </tr>
                     </thead>

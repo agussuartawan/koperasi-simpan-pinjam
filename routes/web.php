@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArearsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\DepositBalanceController;
@@ -66,7 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('withdrawal/get-list', [WithdrawalController::class, 'getWithdrawalList']);
     });
 
-    // Deposit
+    // Loans
     Route::group(['middleware' => 'can:akses pinjaman'], function () {
         //Debt
         Route::get('debts', DebtController::class)->name('debts');
@@ -80,5 +81,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('payments', PaymentController::class);
         Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);
         Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
+    });
+
+    //Arrears
+    Route::group(['middleware' => 'can:akses tunggakan'], function(){
+        Route::get('arrears', ArearsController::class)->name('arears.index');
     });
 });

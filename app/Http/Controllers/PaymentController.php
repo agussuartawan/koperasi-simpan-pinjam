@@ -36,8 +36,8 @@ class PaymentController extends Controller
             ->addColumn('client_name', function ($data) {
                 return $data->client->name;
             })
-            ->addColumn('amount', function ($data) {
-                return idr($data->amount);
+            ->addColumn('total_amount', function ($data) {
+                return idr($data->total_amount);
             })
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
@@ -53,7 +53,7 @@ class PaymentController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name', 'amount'])
+            ->rawColumns(['action', 'client_name', 'total_amount'])
             ->make(true);
     }
 
@@ -90,7 +90,8 @@ class PaymentController extends Controller
 
             $validated['mulct_idr'] = $mulct_idr;
             $validated['payment_on'] = $payment_on;
-            $validated['amount'] = $total_amount;
+            $validated['amount'] = $amount;
+            $validated['total_amount'] = $total_amount;
             $validated['debt_id'] = $debt_id;
 
             $payment = Payment::create($validated);
@@ -109,9 +110,9 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Payment $payment)
     {
-        //
+        return view('include.payment.show', compact('payment'));
     }
 
     /**
