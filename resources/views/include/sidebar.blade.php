@@ -67,15 +67,17 @@
     @endcan
 
     @can('akses laporan')
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
+        <li class="nav-item{{ request()->is('report-deposit') ? ' active' : '' }}">
+            <a class="nav-link{{ request()->is('report-deposit') ? '' : ' collapsed' }}" href="#"
+                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-flag"></i>
                 <span>Laporan</span>
             </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseTwo" class="collapse{{ request()->is('report-deposit') ? ' show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html">Laporan Tabungan</a>
+                    <a class="collapse-item{{ request()->is('report-deposit') ? ' active' : '' }}"
+                        href="{{ route('deposit.report') }}">Laporan Tabungan</a>
                     <a class="collapse-item" href="buttons.html">Laporan Penarikan</a>
                     <a class="collapse-item" href="buttons.html">Laporan Pinjaman</a>
                     <a class="collapse-item" href="buttons.html">Laporan Angsuran</a>

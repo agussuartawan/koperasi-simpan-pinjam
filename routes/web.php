@@ -7,6 +7,7 @@ use App\Http\Controllers\DepositBalanceController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
@@ -87,5 +88,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'can:akses tunggakan'], function () {
         Route::get('arrears', [ArearsController::class, 'index'])->name('arrears.index');
         Route::get('arrears/{loan}', [ArearsController::class, 'show'])->name('arrears.show');
+    });
+
+    //Report
+    Route::group(['middleware' => 'can:akses laporan'], function(){
+        Route::get('report-deposit', [ReportController::class, 'depositReport'])->name('deposit.report');
+        Route::get('report-deposit', [ReportController::class, 'depositReport'])->name('deposit.report');
+
+        Route::get('report-deposit-pdf',[ReportController::class, 'depositReportPdf'])->name('deposit.report.pdf');
+        // Route::get('reports/withdrawal',[ReportController::class, 'withdrawalReport'])->name('withdrawal.report');
+        // Route::get('reports/loan',[ReportController::class, 'loanReport'])->name('loan.report');
+        // Route::get('reports/installment',[ReportController::class, 'installmentReport'])->name('installment.report');
+        // Route::get('reports/arrears',[ReportController::class, 'arrearsReport'])->name('arrears.report');
     });
 });
