@@ -88,17 +88,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'can:akses tunggakan'], function () {
         Route::get('arrears', [ArearsController::class, 'index'])->name('arrears.index');
         Route::get('arrears/{loan}', [ArearsController::class, 'show'])->name('arrears.show');
+        Route::get('report-arrear-pdf', [ArearsController::class, 'arrearReportPdf'])->name('arrear.report');
     });
 
     //Report
-    Route::group(['middleware' => 'can:akses laporan'], function(){
+    Route::group(['middleware' => 'can:akses laporan'], function () {
         Route::get('report-deposit', [ReportController::class, 'depositReport'])->name('deposit.report');
-        Route::get('report-deposit', [ReportController::class, 'depositReport'])->name('deposit.report');
+        Route::get('report-deposit-table', [ReportController::class, 'depositReportTable'])->name('deposit.report.table');
+        Route::get('report-deposit-pdf', [ReportController::class, 'depositReportPdf']);
 
-        Route::get('report-deposit-pdf',[ReportController::class, 'depositReportPdf'])->name('deposit.report.pdf');
-        // Route::get('reports/withdrawal',[ReportController::class, 'withdrawalReport'])->name('withdrawal.report');
-        // Route::get('reports/loan',[ReportController::class, 'loanReport'])->name('loan.report');
-        // Route::get('reports/installment',[ReportController::class, 'installmentReport'])->name('installment.report');
-        // Route::get('reports/arrears',[ReportController::class, 'arrearsReport'])->name('arrears.report');
+        Route::get('report-withdrawal', [ReportController::class, 'withdrawalReport'])->name('withdrawal.report');
+        Route::get('report-withdrawal-table', [ReportController::class, 'withdrawalReportTable'])->name('withdrawal.report.table');
+        Route::get('report-withdrawal-pdf', [ReportController::class, 'withdrawalReportPdf']);
+
+        Route::get('report-loan', [ReportController::class, 'loanReport'])->name('loan.report');
+        Route::get('report-loan-table', [ReportController::class, 'loanReportTable'])->name('loan.report.table');
+        Route::get('report-loan-pdf', [ReportController::class, 'loanReportPdf']);
+
+        Route::get('report-payment', [ReportController::class, 'paymentReport'])->name('payment.report');
+        Route::get('report-payment-table', [ReportController::class, 'paymentReportTable'])->name('payment.report.table');
+        Route::get('report-payment-pdf', [ReportController::class, 'paymentReportPdf']);
     });
 });

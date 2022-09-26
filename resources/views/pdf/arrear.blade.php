@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-@section('title', 'Laporan Tabungan')
+@section('title', 'Laporan Tunggakan')
 @section('content')
     @push('css')
         <style>
@@ -41,40 +41,30 @@
     @endpush
 
     <div class="container">
-        <h3 class="text-center" style="margin-bottom: 5px">Laporan Tabungan</h3>
+        <h3 class="text-center" style="margin-bottom: 5px">Laporan Tunggakan</h3>
         <table class="table" style="margin-top: 5px; margin-bottom: 15px">
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Tgl</th>
-                    <th>Kode</th>
                     <th>Nama Klien</th>
-                    <th>Keterangan</th>
+                    <th>Angsuran ke</th>
                     <th>Jumlah</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($deposits as $key => $deposit)
+                @forelse($arrears as $key => $arrear)
                     <tr>
                         <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($deposit->date)->format('d/m/Y') }}</td>
-                        <td>{{ $deposit->code }}</td>
-                        <td>{{ $deposit->client->name }}</td>
-                        <td>{{ $deposit->description }}</td>
-                        <td class="text-right">{{ idr($deposit->amount) }}</td>
+                        <td>{{ $arrear->loan->client->name }}</td>
+                        <td>({{ $arrear->loan->code }}) {{ $arrear->installment_to }}</td>
+                        <td class="text-right">{{ idr($arrear->loan->total_amount / $arrear->loan->term->term_day) }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Tidak ada data.</td>
+                        <td colspan="4" class="text-center">Tidak ada data.</td>
                     </tr>
                 @endforelse
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5" class="text-center">Jumlah</td>
-                    <td class="text-right">{{ idr($deposits->sum('amount')) }}</td>
-                </tr>
-            </tfoot>
         </table>
 
         {{-- <table style="width: 100%; margin-top: 20px">

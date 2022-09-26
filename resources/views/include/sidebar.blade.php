@@ -67,21 +67,30 @@
     @endcan
 
     @can('akses laporan')
-        <li class="nav-item{{ request()->is('report-deposit') ? ' active' : '' }}">
-            <a class="nav-link{{ request()->is('report-deposit') ? '' : ' collapsed' }}" href="#"
-                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <li
+            class="nav-item{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' active' : '' }}">
+            <a class="nav-link{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? '' : ' collapsed' }}"
+                href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-flag"></i>
                 <span>Laporan</span>
             </a>
-            <div id="collapseTwo" class="collapse{{ request()->is('report-deposit') ? ' show' : '' }}"
+            <div id="collapseTwo"
+                class="collapse{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' show' : '' }}"
                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
+
                     <a class="collapse-item{{ request()->is('report-deposit') ? ' active' : '' }}"
                         href="{{ route('deposit.report') }}">Laporan Tabungan</a>
-                    <a class="collapse-item" href="buttons.html">Laporan Penarikan</a>
-                    <a class="collapse-item" href="buttons.html">Laporan Pinjaman</a>
-                    <a class="collapse-item" href="buttons.html">Laporan Angsuran</a>
-                    <a class="collapse-item" href="buttons.html">Laporan Tunggakan</a>
+
+                    <a class="collapse-item{{ request()->is('report-withdrawal') ? ' active' : '' }}"
+                        href="{{ route('withdrawal.report') }}">Laporan Penarikan</a>
+
+                    <a class="collapse-item{{ request()->is('report-loan') ? ' active' : '' }}"
+                        href="{{ route('loan.report') }}">Laporan Pinjaman</a>
+
+                    <a class="collapse-item{{ request()->is('report-payment') ? ' active' : '' }}"
+                        href="{{ route('payment.report') }}">Laporan Angsuran</a>
                 </div>
             </div>
         </li>

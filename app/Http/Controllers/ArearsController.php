@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Arrear;
 use App\Models\Loan;
-use App\Models\Payment;
 use App\Models\PaymentOverdue;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class ArearsController extends Controller
 {
@@ -18,7 +18,7 @@ class ArearsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function createArrear()
     {
         DB::transaction(function () {
             $now = Carbon::now();
@@ -32,6 +32,11 @@ class ArearsController extends Controller
                 ]);
             }
         });
+    }
+
+    public function index()
+    {
+        $this->createArrear();
         $arrears = Arrear::with('loan')->get();
         return view('arrear.index', compact('arrears'));
     }
@@ -39,5 +44,12 @@ class ArearsController extends Controller
     public function show(Loan $loan)
     {
         return view('include.arrear.show', compact('loan'));
+    }
+
+    public function arrearReportPdf()
+    {
+        $arrears = Arrear::with('loan')->get();
+        $pdf = Pdf::loadview('pdf.arrear', compact('arrears'));
+        return $pdf->stream('laporan-tunggakan-pdf');
     }
 }

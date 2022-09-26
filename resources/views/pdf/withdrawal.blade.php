@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-@section('title', 'Laporan Tabungan')
+@section('title', 'Laporan Tarikan')
 @section('content')
     @push('css')
         <style>
@@ -41,7 +41,7 @@
     @endpush
 
     <div class="container">
-        <h3 class="text-center" style="margin-bottom: 5px">Laporan Tabungan</h3>
+        <h3 class="text-center" style="margin-bottom: 5px">Laporan Tarikan</h3>
         <table class="table" style="margin-top: 5px; margin-bottom: 15px">
             <thead>
                 <tr>
@@ -54,14 +54,14 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($deposits as $key => $deposit)
+                @forelse($withdrawals as $key => $withdrawal)
                     <tr>
                         <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($deposit->date)->format('d/m/Y') }}</td>
-                        <td>{{ $deposit->code }}</td>
-                        <td>{{ $deposit->client->name }}</td>
-                        <td>{{ $deposit->description }}</td>
-                        <td class="text-right">{{ idr($deposit->amount) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($withdrawal->date)->format('d/m/Y') }}</td>
+                        <td>{{ $withdrawal->code }}</td>
+                        <td>{{ $withdrawal->client->name }}</td>
+                        <td>{{ $withdrawal->description }}</td>
+                        <td class="text-right">{{ idr($withdrawal->amount) }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -72,7 +72,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="text-center">Jumlah</td>
-                    <td class="text-right">{{ idr($deposits->sum('amount')) }}</td>
+                    <td class="text-right">{{ idr($withdrawals->sum('amount')) }}</td>
                 </tr>
             </tfoot>
         </table>

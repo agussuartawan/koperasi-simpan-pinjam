@@ -39,7 +39,6 @@
         img {
             width: 110px;
         }
-
     </style>
     @stack('css')
 </head>
@@ -53,7 +52,7 @@
                 </td>
                 <td class="heading">
                     <h3>{{ env('APP_NAME') }}</h3>
-                    <p>-,</p>
+                    <p>-</p>
                     <p>-</p>
                     <p>Telp : -</p>
                 </td>

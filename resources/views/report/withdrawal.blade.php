@@ -1,5 +1,5 @@
 @extends('layouts.panel')
-@section('title', 'Laporan Tabungan')
+@section('title', 'Laporan Tarikan')
 @push('css')
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -8,22 +8,22 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h3 mb-0 text-gray-800">Laporan Tabungan</h1>
+        <h1 class="h3 mb-0 text-gray-800">Laporan Tarikan</h1>
     </div>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Laporan Tabungan</li>
+            <li class="breadcrumb-item active" aria-current="page">Laporan Tarikan</li>
         </ol>
     </nav>
 
     <div class="card shadow mb-4" id="search-area">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Cari laporan tabungan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Cari laporan tarikan</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('deposit.report.table') }}" method="get" id="form-search">
+            <form action="{{ route('withdrawal.report.table') }}" method="get" id="form-search">
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
@@ -52,7 +52,7 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="{{ asset('') }}/js/report/deposit.js"></script>
+    <script src="{{ asset('') }}/js/report/withdrawal.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-buttons/js/dataTables.buttons.min.js"></script>

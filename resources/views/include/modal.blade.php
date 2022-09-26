@@ -11,8 +11,22 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary modal-save">Simpan</button>
+                {{-- <button type="button" class="btn btn-danger">Tutup</button>
+                <button type="button" class="btn btn-primary modal-save">Simpan</button> --}}
+
+                <button class="btn btn-danger btn-icon-split" data-dismiss="modal">
+                    <span class="icon text-white-50">
+                        <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    </span>
+                    <span class="text">Tutup</span>
+                </button>
+
+                <button class="btn btn-primary btn-icon-split modal-save">
+                    <span class="icon text-white-50">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                    </span>
+                    <span class="text">Simpan</span>
+                </button>
             </div>
         </div>
         <!-- /.modal-content -->
