@@ -20,7 +20,7 @@ class ArearsController extends Controller
      */
     public function createArrear()
     {
-        DB::transaction(function () {
+        // DB::transaction(function () {
             $now = Carbon::now();
             Arrear::truncate();
             $payment_overdues = PaymentOverdue::where('overdue_date', '<=', $now)->get();
@@ -31,7 +31,7 @@ class ArearsController extends Controller
                     'installment_to' => $payment_overdue->installment_to
                 ]);
             }
-        });
+        // });
     }
 
     public function index()
