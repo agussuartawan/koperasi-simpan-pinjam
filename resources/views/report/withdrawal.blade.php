@@ -37,7 +37,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-search mr-2">Cari</button>
+                <button class="btn btn-primary btn-search mr-2 btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                    <span class="text">Cari</span>
+                </button>
             </form>
         </div>
     </div>

@@ -31,7 +31,8 @@ class HomeController extends Controller
             'deposits' => DepositBalance::sum('amount'),
             'loans' => Loan::sum('total_amount'),
             'arrears' => 0,
-            'clients' => Client::count()
+            'clients' => Client::count(),
+            'top_clients' => DepositBalance::orderBy('amount', 'asc')->take(5)->get()
         ]);
     }
 }
