@@ -42,7 +42,7 @@
 </div>
 
 <div class="form-group">
-    <label for="client_type_id">{{ __('Jabatan') }}</label>
+    <label for="client_type_id">{{ __('Tipe Pelanggan') }}</label>
     {!! Form::select('client_type_id', $client_type, null, [
         'class' => 'form-control custom-select',
         'id' => 'client_type_id',

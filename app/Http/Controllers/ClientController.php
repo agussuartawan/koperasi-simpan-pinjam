@@ -81,9 +81,6 @@ class ClientController extends Controller
     {
         DB::transaction(function () use ($request) {
             $messages = [
-                'code.required' => 'Kode tidak boleh kosong!',
-                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-                'code.unique' => 'Kode sudah digunakan!',
                 'nik.required' => 'NIK tidak boleh kosong!',
                 'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
                 'name.required' => 'Nama tidak boleh kosong!',
@@ -95,7 +92,6 @@ class ClientController extends Controller
             ];
 
             $validated = $request->validate([
-                'code' => ['required', 'max:255', 'unique:clients,code'],
                 'nik' => ['required', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
                 'gender' => ['required'],
@@ -145,9 +141,6 @@ class ClientController extends Controller
     public function update(Request $request, CLient $client)
     {
         $messages = [
-            'code.required' => 'Kode tidak boleh kosong!',
-            'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-            'code.unique' => 'Kode sudah digunakan!',
             'nik.required' => 'NIK tidak boleh kosong!',
             'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
             'name.required' => 'Nama tidak boleh kosong!',
@@ -159,7 +152,6 @@ class ClientController extends Controller
         ];
 
         $validated = $request->validate([
-            'code' => ['required', 'max:255', 'unique:clients,code,' . $client->id],
             'nik' => ['required', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'gender' => ['required'],
