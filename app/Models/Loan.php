@@ -35,4 +35,17 @@ class Loan extends Model
     {
         return $this->hasMany(PaymentOverdue::class);
     }
+
+    public static function getNextCode()
+    {
+        $loan_count = Loan::count();
+        if($loan_count == 0){
+            $number = 1001;
+            return 'PNJ' . $number;
+        } else {
+            $number = Loan::all()->last();
+            $number_plus = (int)substr($number->code, -4) + 1;
+            return 'PNJ' . $number_plus;
+        }
+    }
 }

@@ -20,4 +20,17 @@ class Payment extends Model
     {
         return $this->belongsTo(Loan::class);
     }
+
+    public static function getNextCode()
+    {
+        $payment_count = Payment::count();
+        if($payment_count == 0){
+            $number = 1001;
+            return 'PMB' . $number;
+        } else {
+            $number = Payment::all()->last();
+            $number_plus = (int)substr($number->code, -4) + 1;
+            return 'PMB' . $number_plus;
+        }
+    }
 }

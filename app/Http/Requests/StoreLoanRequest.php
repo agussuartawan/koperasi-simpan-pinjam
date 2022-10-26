@@ -24,7 +24,6 @@ class StoreLoanRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'max:255', 'unique:loans,code'],
             'client_id' => ['required'],
             'term_id' => ['required'],
             'date' => ['required', 'date'],
@@ -36,9 +35,6 @@ class StoreLoanRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required' => 'Kode tidak boleh kosong!',
-            'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-            'code.unique' => 'Kode sudah digunakan!',
             'client_id.required' => 'Klien tidak boleh kosong!',
             'date.required' => 'Tanggal tidak boleh kosong!',
             'date.date' => 'Format tanggal tidak sesuai!',

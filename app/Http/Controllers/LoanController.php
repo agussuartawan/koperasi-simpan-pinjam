@@ -77,15 +77,7 @@ class LoanController extends Controller
     public function store(StoreLoanRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $validated = $request->validated();
-
-            $validated['amount'] = (float)preg_replace('/[Rp. ]/', '', $request->amount);
-            $validated['bank_interest_idr'] = $validated['amount'] * (float)($validated['bank_interest'] / 100);
-            $validated['total_amount'] = $validated['amount'] + $validated['bank_interest_idr'];
-
-            $loan = Loan::create($validated);
-
-            event(new LoanCreated($loan));
+            return Loan::create($request->validated());
         });
     }
 

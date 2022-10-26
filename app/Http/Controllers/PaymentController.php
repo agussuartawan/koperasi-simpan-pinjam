@@ -77,30 +77,7 @@ class PaymentController extends Controller
     public function store(StorePaymentRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $validated = $request->validated();
-
-            $debt_id = Debt::where('client_id', $validated['client_id'])->first()->id;
-            $loan = Loan::where('id', $validated['loan_id'])->first();
-            $payment_on = Payment::where('loan_id', $validated['loan_id'])->count() + 1;
-            $amount = (float)$loan->total_amount / (float)$loan->term->term_day;
-
-            $mulct = (float)$validated['mulct'];
-            $mulct_idr = $amount * ($mulct / 100);
-            $total_amount = $amount + $mulct_idr;
-
-            $validated['mulct_idr'] = $mulct_idr;
-            $validated['payment_on'] = $payment_on;
-            $validated['amount'] = $amount;
-            $validated['total_amount'] = $total_amount;
-            $validated['debt_id'] = $debt_id;
-
-            $payment = Payment::create($validated);
-
-            if ($payment->payment_on == $loan->term->term_day) {
-                $loan->is_paid = 1;
-                $loan->save();
-            }
-            event(new PaymentCreated($payment));
+            return Payment::create($request->validated());
         });
     }
 
