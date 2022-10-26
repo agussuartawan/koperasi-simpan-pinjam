@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\DepositCreated;
+use App\Http\Requests\StoreDepositRequest;
 use App\Models\Client;
 use App\Models\Deposit;
 use App\Models\DepositType;
@@ -76,29 +77,10 @@ class DepositController extends Controller
      * @param  \App\Http\Requests\StoreDepositRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDepositRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $messages = [
-                'client_id.required' => 'Klien tidak boleh kosong!',
-                'date.required' => 'Tanggal tidak boleh kosong!',
-                'deposit_type_id.required' => 'Tipe setoran tidak boleh kosong!',
-                'amount.required' => 'Jumlah tidak boleh kosong!'
-            ];
-
-            $validated = $request->validate([
-                'client_id' => ['required'],
-                'date' => ['required', 'string', 'max:255'],
-                'deposit_type_id' => ['required'],
-                'amount' => ['required'],
-            ], $messages);
-
-            $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
-            $validated['description'] = $request->description;
-
-            $deposit = Deposit::create($validated);
-
-            event(new DepositCreated($deposit));
+            return Deposit::create($request->validated());
         });
     }
 

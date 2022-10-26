@@ -13,7 +13,7 @@ class StoreDepositRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,21 @@ class StoreDepositRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'client_id' => ['required'],
+            'date' => ['required', 'string', 'max:255'],
+            'deposit_type_id' => ['required'],
+            'amount' => ['required'],
+            'description' => []
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'client_id.required' => 'Klien tidak boleh kosong!',
+            'date.required' => 'Tanggal tidak boleh kosong!',
+            'deposit_type_id.required' => 'Tipe setoran tidak boleh kosong!',
+            'amount.required' => 'Jumlah tidak boleh kosong!'
         ];
     }
 }

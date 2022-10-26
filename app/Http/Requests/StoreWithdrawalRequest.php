@@ -13,7 +13,7 @@ class StoreWithdrawalRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class StoreWithdrawalRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'client_id' => ['required'],
+            'date' => ['required', 'string', 'max:255'],
+            'amount' => ['required'],
+            'description' => []
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'client_id.required' => 'Klien tidak boleh kosong!',
+            'date.required' => 'Tanggal tidak boleh kosong!',
+            'amount.required' => 'Jumlah tidak boleh kosong!'
         ];
     }
 }

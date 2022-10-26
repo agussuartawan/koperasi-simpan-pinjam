@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Deposit;
+use App\Models\DepositBalance;
 
 class DepositObserver
 {
@@ -14,21 +15,21 @@ class DepositObserver
      */
     public function created(Deposit $deposit)
     {
-        
+        $deposit_balance = DepositBalance::where('client_id', $deposit->client_id);
+        if (!$deposit_balance->exists()) {
+            DepositBalance::create([
+                'client_id' => $deposit->client_id,
+                'amount' => $deposit->amount
+            ]);
+        } else {
+            $deposit_balance->increment('amount', $deposit->amount);
+        }
     }
 
     public function creating(Deposit $deposit)
     {
-        $deposit_count = Deposit::count();
-        if($deposit_count == 0){
-            $number = 1001;
-            $fullnumber = 'STRN' . $number;
-        } else {
-            $number = Deposit::all()->last();
-            $number_plus = (int)substr($number->code, -4) + 1;
-            $fullnumber = 'STRN' . $number_plus;
-        }
-        $deposit->code = $fullnumber;
+        $deposit->amount = rounded($deposit->amount);
+        $deposit->code = $deposit->getNextCode();
     }
 
     /**

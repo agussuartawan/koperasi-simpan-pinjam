@@ -77,32 +77,10 @@ class WithdrawalController extends Controller
      * @param  \App\Http\Requests\StoreWithdrawalRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWithdrawalRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $messages = [
-                'code.required' => 'Kode tidak boleh kosong!',
-                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-                'code.unique' => 'Kode sudah digunakan!',
-                'client_id.required' => 'Klien tidak boleh kosong!',
-                'date.required' => 'Tanggal tidak boleh kosong!',
-                'amount.required' => 'Jumlah tidak boleh kosong!'
-            ];
-
-            $validated = $request->validate([
-                'code' => ['required', 'max:255', 'unique:withdrawals,code'],
-                'client_id' => ['required'],
-                'date' => ['required', 'string', 'max:255'],
-                'amount' => ['required'],
-            ], $messages);
-
-            $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
-            $validated['deposit_balance_id'] = DepositBalance::where('client_id', $request->client_id)->first()->id;
-            $validated['description'] = $request->description;
-
-            $withdrawal = Withdrawal::create($validated);
-
-            event(new WithdrawalCreated($withdrawal));
+            return Withdrawal::create($request->validated());
         });
     }
 

@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Client;
 use App\Models\Deposit;
+use App\Models\Withdrawal;
 use App\Observers\ClientObserver;
 use App\Observers\DepositObserver;
+use App\Observers\WithdrawalObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -50,5 +52,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Deposit::observe(DepositObserver::class);
         Client::observe(ClientObserver::class);
+        Withdrawal::observe(WithdrawalObserver::class);
     }
 }

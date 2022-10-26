@@ -20,4 +20,17 @@ class Withdrawal extends Model
     {
         return $this->belongsTo(Deposit::class);
     }
+
+    public static function getNextCode()
+    {
+        $deposit_count = Withdrawal::count();
+        if($deposit_count == 0){
+            $number = 1001;
+            return 'TRK' . $number;
+        } else {
+            $number = Withdrawal::all()->last();
+            $number_plus = (int)substr($number->code, -4) + 1;
+            return 'TRK' . $number_plus;
+        }
+    }
 }

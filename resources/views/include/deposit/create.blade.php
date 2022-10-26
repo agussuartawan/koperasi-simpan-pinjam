@@ -6,7 +6,7 @@
 
 <div class="form-group">
     <label for="code">{{ __('Kode') }}</label>
-    {!! Form::text('code', \App\Models\Deposit::nextCode(), [
+    {!! Form::text('code', \App\Models\Deposit::getNextCode(), [
         'class' => 'form-control',
         'id' => 'code',
         'disabled' => true,
