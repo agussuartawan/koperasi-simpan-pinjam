@@ -6,7 +6,7 @@
 
 <div class="form-group">
     <label for="code">{{ __('Kode') }}</label>
-    {!! Form::text('code', null, ['class' => 'form-control', 'id' => 'code']) !!}
+    {!! Form::text('code', null, ['class' => 'form-control', 'id' => 'code', 'disabled' => 'disabled']) !!}
 </div>
 
 <div class="form-group">
@@ -46,6 +46,7 @@
     {!! Form::select('client_type_id', $client_type, null, [
         'class' => 'form-control custom-select',
         'id' => 'client_type_id',
+        'placeholder' => 'Pilih tipe klien',
     ]) !!}
 </div>
 

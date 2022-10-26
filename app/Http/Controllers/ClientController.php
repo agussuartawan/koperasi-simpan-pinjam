@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\ClientCreated;
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\ClientType;
 use App\Models\DepositBalance;
@@ -77,33 +79,10 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $messages = [
-                'nik.required' => 'NIK tidak boleh kosong!',
-                'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
-                'name.required' => 'Nama tidak boleh kosong!',
-                'name.max' => 'Nama tidak boleh melebihi 255 huruf!',
-                'phone.required' => 'No telp tidak boleh kosong!',
-                'gender.required' => 'Jenis kelamin tidak boleh kosong!',
-                'address.required' => 'Alamat masuk tidak boleh kosong!',
-                'client_type_id.required' => 'Tipe tidak boleh kosong!'
-            ];
-
-            $validated = $request->validate([
-                'nik' => ['required', 'max:255'],
-                'name' => ['required', 'string', 'max:255'],
-                'gender' => ['required'],
-                'phone' => ['required'],
-                'address' => ['required'],
-                'client_type_id' => ['required'],
-            ], $messages);
-
-            $client =  Client::create($validated);
-
-            event(new ClientCreated($client));
-
+            $client =  Client::create($request->validated());
             return $client;
         });
     }
@@ -138,30 +117,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CLient $client)
+    public function update(UpdateClientRequest $request, CLient $client)
     {
-        $messages = [
-            'nik.required' => 'NIK tidak boleh kosong!',
-            'nik.max' => 'NIK tidak boleh melebihi 255 digit!',
-            'name.required' => 'Nama tidak boleh kosong!',
-            'name.max' => 'Nama tidak boleh melebihi 255 huruf!',
-            'phone.required' => 'No telp tidak boleh kosong!',
-            'gender.required' => 'Jenis kelamin tidak boleh kosong!',
-            'address.required' => 'Alamat masuk tidak boleh kosong!',
-            'client_type_id.required' => 'Tipe tidak boleh kosong!'
-        ];
-
-        $validated = $request->validate([
-            'nik' => ['required', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'gender' => ['required'],
-            'phone' => ['required'],
-            'address' => ['required'],
-            'client_type_id' => ['required'],
-            'is_active' => ['required']
-        ], $messages);
-
-        return $client->update($validated);
+        return $client->update($request->validated());
     }
 
     /**
@@ -201,5 +159,10 @@ class ClientController extends Controller
             abort(422);
         }
         return true;
+    }
+
+    public function getClientCode(Request $request)
+    {
+        return Client::getNextCode($request->client_type_id);
     }
 }

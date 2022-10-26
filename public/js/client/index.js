@@ -46,7 +46,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $('.modal-save').show();
+                        $(".modal-save").show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -67,7 +67,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').hide();
+        $(".modal-save").hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -76,7 +76,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').show();
+        $(".modal-save").show();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -126,6 +126,21 @@ $(function () {
             },
         });
     });
+
+    $("body").on("change", "#client_type_id", function () {
+        const client_type_id = $(this).val();
+        $.ajax({
+            url: `client/get-code?client_type_id=${client_type_id}`,
+            type: "GET",
+            dataType: "text",
+            success: function (response) {
+                $("#code").val(response);
+            },
+            error: function (xhr, status) {
+                alert("Terjadi kesalahan");
+            },
+        });
+    });
 });
 
 fillModal = (me) => {
@@ -143,7 +158,6 @@ fillModal = (me) => {
         dataType: "html",
         success: function (response) {
             $(".modal-body").html(response);
-            makeSelectTwo();
         },
         error: function (xhr, status) {
             $("#modal").modal("hide");

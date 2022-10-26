@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('client/get-balance', [ClientController::class, 'getBalance']);
         Route::get('client/balance-check', [ClientController::class, 'balanceCheck']);
         Route::resource('clients', ClientController::class);
+
+        Route::get('client/get-code', [ClientController::class, 'getClientCode']);
     });
 
     // Deposit
