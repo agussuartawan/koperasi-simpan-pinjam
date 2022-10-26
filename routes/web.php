@@ -8,6 +8,7 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('payments', PaymentController::class);
         Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);
         Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
+
+        //term
+        Route::get('debts/terms', [TermController::class, 'index'])->name('terms.index');
+        Route::get('debts/terms/{term}/edit', [TermController::class, 'index'])->name('terms.edit');
+        Route::get('terms/get-list', [TermController::class, 'getList']);
     });
 
     //Arrears

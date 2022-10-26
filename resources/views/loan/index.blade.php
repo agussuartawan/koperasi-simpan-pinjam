@@ -1,7 +1,7 @@
 @extends('layouts.panel')
 @section('title', 'Peminjaman')
 @push('css')
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/select2/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -14,14 +14,7 @@
         <h1 class="h3 mb-0 text-gray-800">
             Peminjaman
         </h1>
-        <h6>
-            <button class="btn btn-sm btn-info" disabled><i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i>
-                Peminjaman</button>
-
-            <a href="{{ route('payments.index') }}" class="btn btn-sm btn-info"><i class="fa fa-fw fa-arrow-circle-up"
-                    aria-hidden="true"></i>
-                Pembayaran</a>
-        </h6>
+        @include('include.payment.btn-navigation')
     </div>
 
     <nav aria-label="breadcrumb">
@@ -62,17 +55,17 @@
 @endsection
 @push('js')
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('') }}/js/loan/index.js"></script>
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>
     <script src="{{ asset('') }}/vendor/select2/js/select2.full.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
     <script src="{{ asset('') }}/vendor/sweetalert2/sweetalert2.min.js"></script>
-    <script src="vendor/currency/jquery.maskMoney.min.js"></script>
+    <script src="/vendor/currency/jquery.maskMoney.min.js"></script>
 @endpush

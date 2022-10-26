@@ -29,14 +29,21 @@ $(function () {
                     text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Peminjaman`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        window.location.href = '/loans';
+                        window.location.href = "/loans";
                     },
                 },
                 {
                     text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Pembayaran`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        window.location.href = '/payments';
+                        window.location.href = "/payments";
+                    },
+                },
+                {
+                    text: `<i class="fa fa-list" aria-hidden="true"></i> Lama Pinjaman`,
+                    className: "btn btn-info",
+                    action: function (e, dt, node, config) {
+                        window.location.href = "/debts/terms";
                     },
                 },
             ],

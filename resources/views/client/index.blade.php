@@ -51,12 +51,12 @@
 @endsection
 @push('js')
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('') }}/js/client/index.js"></script>
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>
     {{-- <script src="{{ asset('') }}/vendor/select2/js/select2.full.min.js"></script> --}}
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>

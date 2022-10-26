@@ -51,7 +51,7 @@
 
     @can('akses pinjaman')
         <li
-            class="nav-item{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') ? ' active' : '' }}">
+            class="nav-item{{ request()->is('loans*') || request()->is('debts*') || request()->is('payments*') || request()->is('terms*') ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('debts') }}">
                 <i class="fas fa-fw fa-credit-card"></i>
                 <span>Pinjaman</span></a>

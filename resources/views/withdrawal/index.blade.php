@@ -1,7 +1,7 @@
 @extends('layouts.panel')
 @section('title', 'Tarikan')
 @push('css')
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/select2/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset('') }}/vendor/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -62,17 +62,17 @@
 @endsection
 @push('js')
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('') }}/js/withdrawal/index.js"></script>
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>
     <script src="{{ asset('') }}/vendor/select2/js/select2.full.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="{{ asset('') }}/vendor/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
     <script src="{{ asset('') }}/vendor/sweetalert2/sweetalert2.min.js"></script>
-    <script src="vendor/currency/jquery.maskMoney.min.js"></script>
+    <script src="/vendor/currency/jquery.maskMoney.min.js"></script>
 @endpush
