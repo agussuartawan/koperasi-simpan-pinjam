@@ -87,9 +87,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
 
         //term
-        Route::get('debts/terms', [TermController::class, 'index'])->name('terms.index');
-        Route::get('debts/terms/{term}/edit', [TermController::class, 'index'])->name('terms.edit');
-        Route::get('terms/get-list', [TermController::class, 'getList']);
+        Route::resource('debts/terms', TermController::class)->except('show');
+        Route::get('debts/terms/get-list', [TermController::class, 'getList']);
     });
 
     //Arrears

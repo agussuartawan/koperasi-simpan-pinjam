@@ -1,37 +1,17 @@
-{!! Form::model($user, [
-    'route' => ['users.update', $user],
+{!! Form::model($term, [
+    'route' => ['terms.update', $term->id],
     'method' => 'PUT',
-    'id' => 'form-user',
+    'id' => 'form-term',
 ]) !!}
 
 <div class="form-group">
-    <label for="name">{{ __('Nama User') }}</label>
-    {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) !!}
+    <label for="term_day">{{ __('Lama Pinjaman') }}</label>
+    {!! Form::number('term_day', null, ['class' => 'form-control', 'id' => 'term_day']) !!}
 </div>
 
 <div class="form-group">
-    <label for="email">{{ __('Email') }}</label>
-    {!! Form::text('email', null, ['class' => 'form-control', 'id' => 'email']) !!}
+    <label for="description">{{ __('Keterangan') }}</label>
+    {!! Form::text('description', null, ['class' => 'form-control', 'id' => 'description']) !!}
 </div>
-
-<div class="form-group">
-    <div class="form-row">
-        <div class="col">
-            <label for="date_in">{{ __('Tanggal Masuk') }}</label>
-            {!! Form::date('date_in', null, ['class' => 'form-control', 'id' => 'date_in']) !!}
-        </div>
-
-        <div class="col">
-            <label for="date_out">{{ __('Tanggal Keluar') }}</label>
-            {!! Form::date('date_out', null, ['class' => 'form-control', 'id' => 'date_out']) !!}
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="role">{{ __('Hak akses') }}</label>
-    {!! Form::select('role', $roles, $user->roles()->pluck('role_id'), ['class' => 'form-control', 'id' => 'role']) !!}
-</div>
-
 
 {!! Form::close() !!}

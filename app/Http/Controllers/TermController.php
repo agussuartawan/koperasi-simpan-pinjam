@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTermRequest;
+use App\Http\Requests\UpdateTermRequest;
 use App\Models\Term;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -36,5 +37,29 @@ class TermController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function create()
+    {
+        $terms = new Term();
+        return view('include.term.create', compact('terms'));
+    }
+
+    public function store(StoreTermRequest $request)
+    {
+        $term = Term::create($request->validated());
+
+        return $term;
+    }
+
+    public function edit(Term $term)
+    {
+        return view('include.term.edit', compact('term'));
+    }
+
+    public function update(UpdateTermRequest $request, Term $term)
+    {
+        $term->update($request->validated());
+        return $term;
     }
 }

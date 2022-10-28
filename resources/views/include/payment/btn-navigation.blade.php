@@ -1,6 +1,7 @@
 <h6>
-    <a href="{{ route('terms.index') }}" class="btn btn-sm btn-info{{ request()->is('terms') ? ' disabled' : '' }}"><i
-            class="fa fa-list" aria-hidden="true"></i>
+    <a href="{{ route('terms.index') }}"
+        class="btn btn-sm btn-info{{ request()->is('debts/terms') ? ' disabled' : '' }}"><i class="fa fa-list"
+            aria-hidden="true"></i>
         Lama Pinjaman</a>
 
     <a href="{{ route('loans.index') }}" class="btn btn-sm btn-info{{ request()->is('loans') ? ' disabled' : '' }}"><i

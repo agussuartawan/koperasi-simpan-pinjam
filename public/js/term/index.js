@@ -26,7 +26,7 @@ $(function () {
             },
             pagingType: "first_last_numbers",
             ajax: {
-                url: "terms/get-list",
+                url: "/debts/terms/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                 },
@@ -128,8 +128,8 @@ fillModal = (me) => {
     var url = me.attr("href"),
         title = me.attr("title");
 
-    url === undefined ? (url = "/terms/create") : url;
-    title === undefined ? (title = "Tambah User") : title;
+    url === undefined ? (url = "/debts/terms/create") : url;
+    title === undefined ? (title = "Tambah Lama Pinjaman") : title;
 
     $(".modal-title").text(title);
 
