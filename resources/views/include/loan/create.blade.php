@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-lg-6">
             <label for="date">{{ __('Tanggal') }}</label>
-            {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date']) !!}
+            {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', 'readonly' => true]) !!}
         </div>
 
         <div class="col-lg-6">

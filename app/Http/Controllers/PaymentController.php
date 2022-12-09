@@ -7,6 +7,7 @@ use App\Http\Requests\StorePaymentRequest;
 use App\Models\Debt;
 use App\Models\Loan;
 use App\Models\Payment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -162,5 +163,11 @@ class PaymentController extends Controller
             'installment' => $payment_count,
             'payment_amount' => $payment_amount,
         ];
+    }
+
+    public function paymentInvoice(Payment $payment)
+    {
+        $pdf = Pdf::loadview('pdf.payment-invoice', compact('payment'));
+        return $pdf->stream('nota-pembayaran-pdf');
     }
 }

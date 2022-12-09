@@ -20,4 +20,14 @@ class Payment extends Model
     {
         return $this->belongsTo(Loan::class);
     }
+
+    public function setUserIdAttribute($value)
+    {
+        $this->attributes['user_id'] = auth()->user()->name;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

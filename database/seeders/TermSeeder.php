@@ -14,23 +14,13 @@ class TermSeeder extends Seeder
      */
     public function run()
     {
-        Term::insert([
-            [
-                'description' => '1 Hari',
-                'term_day' => 1
-            ],
-            [
-                'description' => '2 Hari',
-                'term_day' => 2
-            ],
-            [
-                'description' => '3 Hari',
-                'term_day' => 3
-            ],
-            [
-                'description' => '4 Hari',
-                'term_day' => 4
-            ],
-        ]);
+        for($i = 5; $i <= 60; $i++){
+            Term::insert([
+                [
+                    'description' => $i . ' Hari',
+                    'term_day' => $i
+                ],
+            ]);
+        }
     }
 }

@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('payments', PaymentController::class);
         Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);
         Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
+        Route::get('payment/invoice/{payment}', [PaymentController::class, 'paymentInvoice'])->name('payments.invoice');
     });
 
     //Arrears

@@ -25,6 +25,11 @@ class Client extends Model
         return $this->belongsTo(ClientType::class);
     }
 
+    public function debt()
+    {
+        return $this->hasMany(Debt::class);
+    }
+
     public const ANGGOTA = 1;
     public const NASABAH = 2;
 }
