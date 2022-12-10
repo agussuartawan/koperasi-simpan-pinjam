@@ -136,8 +136,8 @@ class LoanController extends Controller
                     'text'  => $loan->code . ' | ' . idr($loan->total_amount)
                 ];
             })
-                ->pluck('text', 'id')
-                ->all();
+            ->pluck('text', 'id')
+            ->all();
         }
         return;
     }

@@ -10,15 +10,13 @@ class Loan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code',
         'client_id',
         'date',
         'bank_interest',
         'bank_interest_idr',
         'term_id',
         'amount',
-        'total_amount',
-        ''
+        'total_amount'
     ];
 
     public function client()
@@ -34,5 +32,26 @@ class Loan extends Model
     public function paymentOverdue()
     {
         return $this->hasMany(PaymentOverdue::class);
+    }
+
+    public static function getNextCode()
+    {
+        $number = 10001;
+        $lastCode = Loan::select("code")->orderBy("code", "desc")->first();
+        if ($lastCode) {
+            $number = (int)substr($lastCode->code, -5) + 1;
+        }
+
+        return "PNJ" . $number;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // auto-sets values on creation
+        static::creating(function ($query) {
+            $query->code = Loan::getNextCode();
+        });
     }
 }

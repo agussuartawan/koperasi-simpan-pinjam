@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\WithdrawalCreated;
 use App\Models\Withdrawal;
-use App\Http\Requests\StoreWithdrawalRequest;
 use App\Http\Requests\UpdateWithdrawalRequest;
 use App\Models\DepositBalance;
 use Carbon\Carbon;
@@ -81,16 +80,12 @@ class WithdrawalController extends Controller
     {
         DB::transaction(function () use ($request) {
             $messages = [
-                'code.required' => 'Kode tidak boleh kosong!',
-                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-                'code.unique' => 'Kode sudah digunakan!',
                 'client_id.required' => 'Klien tidak boleh kosong!',
                 'date.required' => 'Tanggal tidak boleh kosong!',
                 'amount.required' => 'Jumlah tidak boleh kosong!'
             ];
 
             $validated = $request->validate([
-                'code' => ['required', 'max:255', 'unique:withdrawals,code'],
                 'client_id' => ['required'],
                 'date' => ['required', 'string', 'max:255'],
                 'amount' => ['required'],

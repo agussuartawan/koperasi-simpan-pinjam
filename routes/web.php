@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('client/get-list', [ClientController::class, 'getClientList']);
         Route::get('client/get-balance', [ClientController::class, 'getBalance']);
         Route::get('client/balance-check', [ClientController::class, 'balanceCheck']);
+        Route::get('client/client-type-check', [ClientController::class, 'clientTypeCheck']);
         Route::resource('clients', ClientController::class);
     });
 

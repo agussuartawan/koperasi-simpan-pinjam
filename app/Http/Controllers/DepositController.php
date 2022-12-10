@@ -80,9 +80,6 @@ class DepositController extends Controller
     {
         DB::transaction(function () use ($request) {
             $messages = [
-                'code.required' => 'Kode tidak boleh kosong!',
-                'code.max' => 'Kode tidak boleh melebihi 255 huruf!',
-                'code.unique' => 'Kode sudah digunakan!',
                 'client_id.required' => 'Klien tidak boleh kosong!',
                 'date.required' => 'Tanggal tidak boleh kosong!',
                 'deposit_type_id.required' => 'Tipe setoran tidak boleh kosong!',
@@ -90,7 +87,6 @@ class DepositController extends Controller
             ];
 
             $validated = $request->validate([
-                'code' => ['required', 'max:255', 'unique:deposits,code'],
                 'client_id' => ['required'],
                 'date' => ['required', 'string', 'max:255'],
                 'deposit_type_id' => ['required'],
