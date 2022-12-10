@@ -3,7 +3,6 @@
         title="Detail {{ $data->code }}">
         <i class="fa fa-info-circle" aria-hidden="true"></i>
     </a>
-    |
     <a href="{{ route('payments.invoice', $data->id) }}" class="mr-2 btn btn-primary btn-circle btn-sm"
         title="Print Nota Pembayaran {{ $data->code }}" target="_blanc">
         <i class="fa fa-print" aria-hidden="true"></i>

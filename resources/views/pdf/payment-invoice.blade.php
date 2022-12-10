@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-@section('title', 'Nota Pembayaran {{ $payment->code }}')
+@section('title', 'Nota Pembayaran')
 @section('content')
     @push('css')
         <style>
@@ -69,7 +69,7 @@
         <table width="100%">
             <tr>
                 <td><strong>Dari:</strong> {{ env('APP_NAME') }}</td>
-                <td><strong>To:</strong> {{ $payment->client->name }}</td>
+                <td><strong>Kepada:</strong> {{ $payment->client->name }}</td>
             </tr>
         
         </table>
@@ -91,7 +91,7 @@
             <tbody>
                 <tr style="font-size: 12px;">
                     <th scope="row">1</th>
-                    <td>Pembayaran pinjaman no. <strong>{{ $payment->code }}</strong></td>
+                    <td>Pembayaran pinjaman no. <strong>{{ $payment->loan->code }}</strong></td>
                     <td align="center">{{ $payment->payment_on }}</td>
                     <td align="right">{{ idr($payment->amount) }}</td>
                     <td align="right">{{ idr($payment->mulct_idr) }}</td>

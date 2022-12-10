@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="date">{{ __('Tanggal') }}</label>
-    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date']) !!}
+    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', "readonly" => true]) !!}
 </div>
 
 <div class="form-group">

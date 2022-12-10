@@ -45,9 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Client
+    Route::get('client/search', [ClientController::class, 'searchClient']);
     Route::group(['middleware' => 'can:akses klien'], function () {
         Route::get('client/get-list', [ClientController::class, 'getClientList']);
-        Route::get('client/search', [ClientController::class, 'searchClient']);
         Route::get('client/get-balance', [ClientController::class, 'getBalance']);
         Route::get('client/balance-check', [ClientController::class, 'balanceCheck']);
         Route::resource('clients', ClientController::class);
