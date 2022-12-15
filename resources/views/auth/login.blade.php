@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="p-5">
-                                <img src="img/logo.png" class="rounded mx-auto d-block" width="150">
+                                <img src="img/logo.png" class="rounded mx-auto d-block mb-3" width="150">
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group">
