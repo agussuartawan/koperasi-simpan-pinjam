@@ -36,7 +36,6 @@ $(function () {
                 { data: "role", name: "role" },
                 { data: "email", name: "email" },
                 { data: "date_in", name: "date_in" },
-                { data: "date_out", name: "date_out" },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
@@ -45,7 +44,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Tambah`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $('.modal-save').show();
+                        $(".modal-save").show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -66,7 +65,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').hide();
+        $(".modal-save").hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -75,7 +74,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').show();
+        $(".modal-save").show();
         $("#modal").modal("show");
         fillModal(me);
     });

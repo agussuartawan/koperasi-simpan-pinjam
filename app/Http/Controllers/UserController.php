@@ -35,12 +35,6 @@ class UserController extends Controller
             ->addColumn('date_in', function ($data) {
                 return Carbon::parse($data->date_in)->format('d/m/Y');
             })
-            ->addColumn('date_out', function ($data) {
-                if ($data->date_out) {
-                    return Carbon::parse($data->date_out)->format('d/m/Y');
-                }
-                return '-';
-            })
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {
@@ -52,7 +46,7 @@ class UserController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'created_at', 'role', 'date_in', 'date_out'])
+            ->rawColumns(['action', 'created_at', 'role', 'date_in'])
             ->make(true);
     }
 
@@ -128,7 +122,6 @@ class UserController extends Controller
             'role.required' => 'Hak akses tidak boleh kosong!',
             'date_in.required' => 'Tanggal masuk tidak boleh kosong!',
             'date_in.date' => 'Format Tanggal masuk tidak sesuai!',
-            'date_out.date' => 'Format Tanggal keluar tidak sesuai!',
         ];
 
         $validated = $request->validate([
@@ -136,7 +129,6 @@ class UserController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'role' => ['required'],
             'date_in' => ['required', 'date'],
-            'date_out' => ['date']
         ], $messages);
 
         $user->update($validated);

@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon">
             <img src="{{ asset('img/logo.png') }}" style="width: 50px">
         </div>
-        <div class="sidebar-brand-text mx-3">KP Sehati</div>
+        <div class="sidebar-brand-text mx-3">KSP Sehati</div>
     </a>
 
     <!-- Divider -->

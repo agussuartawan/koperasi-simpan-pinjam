@@ -29,17 +29,8 @@
 </div>
 
 <div class="form-group">
-    <div class="form-row">
-        <div class="col">
-            <label for="date_in">{{ __('Tanggal Masuk') }}</label>
-            {!! Form::date('date_in', null, ['class' => 'form-control', 'id' => 'date_in']) !!}
-        </div>
-
-        <div class="col">
-            <label for="date_out">{{ __('Tanggal Keluar') }}</label>
-            {!! Form::date('date_out', null, ['class' => 'form-control', 'id' => 'date_out']) !!}
-        </div>
-    </div>
+    <label for="date_in">{{ __('Tanggal Masuk') }}</label>
+    {!! Form::date('date_in', now(), ['class' => 'form-control', 'id' => 'date_in']) !!}
 </div>
 
 <div class="form-group">
