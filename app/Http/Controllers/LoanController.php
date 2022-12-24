@@ -9,6 +9,7 @@ use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class LoanController extends Controller
@@ -79,6 +80,8 @@ class LoanController extends Controller
         DB::transaction(function () use ($request) {
             $validated = $request->validated();
 
+            $validated['date'] = Carbon::now()->format('Y-m-d');
+            $validated['bank_interest'] = Loan::BANK_INTEREST;
             $validated['amount'] = (float)preg_replace('/[Rp. ]/', '', $request->amount);
             $validated['bank_interest_idr'] = $validated['amount'] * (float)($validated['bank_interest'] / 100);
             $validated['total_amount'] = $validated['amount'] + $validated['bank_interest_idr'];

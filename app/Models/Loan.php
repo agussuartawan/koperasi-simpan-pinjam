@@ -54,4 +54,7 @@ class Loan extends Model
             $query->code = Loan::getNextCode();
         });
     }
+
+    public const BANK_INTEREST = 20;
+    public const MAX_AMOUNT = 3000000;
 }

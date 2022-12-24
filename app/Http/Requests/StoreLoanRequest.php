@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ArrearCheck;
+use App\Rules\MaxAmountCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLoanRequest extends FormRequest
@@ -24,11 +26,9 @@ class StoreLoanRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => ['required'],
+            'client_id' => ['required', new ArrearCheck()],
             'term_id' => ['required'],
-            'date' => ['required', 'date'],
-            'amount' => ['required'],
-            'bank_interest' => ['required'],
+            'amount' => ['required', new MaxAmountCheck()],
         ];
     }
 
@@ -36,10 +36,7 @@ class StoreLoanRequest extends FormRequest
     {
         return [
             'client_id.required' => 'Klien tidak boleh kosong!',
-            'date.required' => 'Tanggal tidak boleh kosong!',
-            'date.date' => 'Format tanggal tidak sesuai!',
             'amount.required' => 'Jumlah pinjaman tidak boleh kosong!',
-            'bank_interest.required' => 'Bunga tidak boleh kosong!'
         ];
     }
 }

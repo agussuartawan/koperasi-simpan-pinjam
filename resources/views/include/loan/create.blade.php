@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-lg-6">
             <label for="date">{{ __('Tanggal') }}</label>
-            {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', 'readonly' => true]) !!}
+            {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', 'disabled' => true]) !!}
         </div>
 
         <div class="col-lg-6">
@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-4">
             <label for="bank_interest">{{ __('Bunga(%)') }}</label>
-            {!! Form::number('bank_interest', 20, ['class' => 'form-control', 'id' => 'bank_interest']) !!}
+            {!! Form::number('bank_interest', \App\Models\Loan::BANK_INTEREST, ['class' => 'form-control', 'id' => 'bank_interest', 'disabled' => true]) !!}
         </div>
 
         <div class="col-lg-4">
