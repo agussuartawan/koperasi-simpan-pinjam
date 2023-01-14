@@ -56,5 +56,5 @@ class Loan extends Model
     }
 
     public const BANK_INTEREST = 20;
-    public const MAX_AMOUNT = 3000000;
+    public const MAX_AMOUNT = 5000000;
 }
