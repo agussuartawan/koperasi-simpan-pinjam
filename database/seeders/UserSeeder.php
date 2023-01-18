@@ -40,7 +40,6 @@ class UserSeeder extends Seeder
 				'name' => 'Super Admin',
 				'email' => 'superadmin@gmail.com',
 				'date_in' => Carbon::now(),
-				'date_out' => Carbon::now(),
 				'password' => Hash::make('password')
 			]);
 
@@ -48,7 +47,6 @@ class UserSeeder extends Seeder
 				'name' => 'Admin',
 				'email' => 'admin@gmail.com',
 				'date_in' => Carbon::now(),
-				'date_out' => Carbon::now(),
 				'password' => Hash::make('password')
 			]);
 
@@ -56,7 +54,6 @@ class UserSeeder extends Seeder
 				'name' => 'Pimpinan',
 				'email' => 'pimpinan@gmail.com',
 				'date_in' => Carbon::now(),
-				'date_out' => Carbon::now(),
 				'password' => Hash::make('password')
 			]);
 
@@ -64,7 +61,6 @@ class UserSeeder extends Seeder
 				'name' => 'Bendahara',
 				'email' => 'bendahara@gmail.com',
 				'date_in' => Carbon::now(),
-				'date_out' => Carbon::now(),
 				'password' => Hash::make('password')
 			]);
 
