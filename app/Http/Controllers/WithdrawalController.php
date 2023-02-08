@@ -81,16 +81,15 @@ class WithdrawalController extends Controller
         DB::transaction(function () use ($request) {
             $messages = [
                 'client_id.required' => 'Klien tidak boleh kosong!',
-                'date.required' => 'Tanggal tidak boleh kosong!',
                 'amount.required' => 'Jumlah tidak boleh kosong!'
             ];
 
             $validated = $request->validate([
                 'client_id' => ['required'],
-                'date' => ['required', 'string', 'max:255'],
                 'amount' => ['required'],
             ], $messages);
 
+            $validated['date'] = Carbon::now()->format('Y-m-d');
             $validated['amount'] = preg_replace('/[Rp. ]/', '', $request->amount);
             $validated['deposit_balance_id'] = DepositBalance::where('client_id', $request->client_id)->first()->id;
             $validated['description'] = $request->description;

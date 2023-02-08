@@ -1,32 +1,33 @@
 {!! Form::model($deposit, [
-    'route' => 'deposits.store',
-    'method' => 'POST',
-    'id' => 'form-deposit',
+'route' => 'deposits.store',
+'method' => 'POST',
+'id' => 'form-deposit',
 ]) !!}
 
 <div class="form-group">
     <label for="code">{{ __('Kode') }}</label>
-    {!! Form::text('code', \App\Models\Deposit::getNextCode(), ['class' => 'form-control', 'id' => 'code', "disabled" => true]) !!}
+    {!! Form::text('code', \App\Models\Deposit::getNextCode(), ['class' => 'form-control', 'id' => 'code', "disabled" =>
+    true]) !!}
 </div>
 
 <div class="form-group">
     <label for="client_id">{{ __('Klien') }}</label>
     {!! Form::select('client_id', [], null, [
-        'class' => 'form-control custom-select',
-        'id' => 'client_id',
+    'class' => 'form-control custom-select',
+    'id' => 'client_id',
     ]) !!}
 </div>
 
 <div class="form-group">
     <label for="date">{{ __('Tanggal') }}</label>
-    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date']) !!}
+    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', 'disabled' => true]) !!}
 </div>
 
 <div class="form-group">
     <label for="deposit_type">{{ __('Tipe Setoran') }}</label>
     {!! Form::select('deposit_type_id', [], null, [
-        'class' => 'form-control custom-select',
-        'id' => 'deposit_type',
+    'class' => 'form-control custom-select',
+    'id' => 'deposit_type',
     ]) !!}
 </div>
 

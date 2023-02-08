@@ -1,12 +1,13 @@
 {!! Form::model($withdrawal, [
-    'route' => 'withdrawals.store',
-    'method' => 'POST',
-    'id' => 'form-withdrawal',
+'route' => 'withdrawals.store',
+'method' => 'POST',
+'id' => 'form-withdrawal',
 ]) !!}
 
 <div class="form-group">
     <label for="code">{{ __('Kode') }}</label>
-    {!! Form::text('code', \App\Models\Withdrawal::getNextCode(), ['class' => 'form-control', 'id' => 'code', "disabled" => true]) !!}
+    {!! Form::text('code', \App\Models\Withdrawal::getNextCode(), ['class' => 'form-control', 'id' => 'code', "disabled"
+    => true]) !!}
 </div>
 
 <div class="form-group">
@@ -14,8 +15,8 @@
         <div class="col-lg-8">
             <label for="client_id">{{ __('Klien') }}</label>
             {!! Form::select('client_id', [], null, [
-                'class' => 'form-control custom-select',
-                'id' => 'client_id',
+            'class' => 'form-control custom-select',
+            'id' => 'client_id',
             ]) !!}
 
         </div>
@@ -23,9 +24,9 @@
         <div class="col-lg-4">
             <label for="client_balance">{{ __('Sisa Saldo') }}</label>
             {!! Form::text('client_balance', null, [
-                'class' => 'form-control',
-                'id' => 'client_balance',
-                'disabled' => true,
+            'class' => 'form-control',
+            'id' => 'client_balance',
+            'disabled' => true,
             ]) !!}
         </div>
     </div>
@@ -34,7 +35,7 @@
 
 <div class="form-group">
     <label for="date">{{ __('Tanggal') }}</label>
-    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date']) !!}
+    {!! Form::date('date', now(), ['class' => 'form-control', 'id' => 'date', 'disabled' => true]) !!}
 </div>
 
 <div class="form-group">
