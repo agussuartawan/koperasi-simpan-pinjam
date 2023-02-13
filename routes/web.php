@@ -57,7 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Deposit
     Route::group(['middleware' => 'can:akses tabungan'], function () {
         //Deposit balance
-        Route::get('deposit-balances', DepositBalanceController::class)->name('deposit.balances');
+        Route::get('deposit-balances', [DepositBalanceController::class, 'index'])->name('deposit.balances');
+        Route::get('deposit-balances/get-list', [DepositBalanceController::class, 'getDepositBalanceList']);
 
         //Deposit
         Route::resource('deposits', DepositController::class)->except('destroy');
@@ -84,6 +85,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('payment/get-list', [PaymentController::class, 'getPaymentList']);
         Route::get('payment/payment-check', [PaymentController::class, 'paymentCheck']);
         Route::get('payment/invoice/{payment}', [PaymentController::class, 'paymentInvoice'])->name('payments.invoice');
+    });
+
+    // Loans Approval
+    Route::group(['middleware' => 'can:akses persetujuan pinjaman'], function () {
+        Route::get('approvals', [LoanController::class, 'approval'])->name('loan.approvals');
+        Route::get('approvals/get-list', [LoanController::class, 'getApprovalList']);
+        Route::put('approvals/{loan}', [LoanController::class, 'approve'])->name('loan.approve');
     });
 
     //Arrears

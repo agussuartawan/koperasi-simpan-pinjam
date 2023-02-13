@@ -40,6 +40,7 @@ $(function () {
                     name: "total_amount",
                     className: "text-right",
                 },
+                { data: "status", name: "status", orderable: false },
                 { data: "action", name: "action", orderable: false },
             ],
             dom: "<'row'<'col'B><'col'f>>tipr",
@@ -48,7 +49,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Peminjaman Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $('.modal-save').show();
+                        $(".modal-save").show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -69,7 +70,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').hide();
+        $(".modal-save").hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -78,7 +79,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').show();
+        $(".modal-save").show();
         $("#modal").modal("show");
         fillModal(me);
     });

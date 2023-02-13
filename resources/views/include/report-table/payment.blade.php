@@ -4,7 +4,7 @@
             <thead class="text-center">
                 <tr>
                     <th>No.</th>
-                    <th>Tgl</th>
+                    <th>Tgl Pembayaran</th>
                     <th>Kode</th>
                     <th>Nama Klien</th>
                     <th>Angsuran ke</th>
@@ -14,19 +14,19 @@
             </thead>
             <tbody>
                 @forelse ($payments as $key => $payment)
-                    <tr>
-                        <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}</td>
-                        <td>{{ $payment->code }}</td>
-                        <td>{{ $payment->client->name }}</td>
-                        <td>({{ $payment->loan->code }}) {{ $payment->payment_on }}</td>
-                        <td class="text-right">{{ idr($payment->mulct_idr) }}</td>
-                        <td class="text-right">{{ idr($payment->total_amount) }}</td>
-                    </tr>
+                <tr>
+                    <td class="text-center">{{ $key + 1 }}</td>
+                    <td>{{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}</td>
+                    <td>{{ $payment->code }}</td>
+                    <td>{{ $payment->client->name }}</td>
+                    <td>({{ $payment->loan->code }}) {{ $payment->payment_on }}</td>
+                    <td class="text-right">{{ idr($payment->mulct_idr) }}</td>
+                    <td class="text-right">{{ idr($payment->total_amount) }}</td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="7" class="text-center">Tidak ada data pada tabel</td>
-                    </tr>
+                <tr>
+                    <td colspan="7" class="text-center">Tidak ada data pada tabel</td>
+                </tr>
                 @endforelse
             </tbody>
             <tfoot>

@@ -9,7 +9,6 @@ use App\Models\Term;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class LoanController extends Controller
@@ -42,6 +41,13 @@ class LoanController extends Controller
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
             })
+            ->addColumn('status', function ($data) {
+                $status = '<span class="badge badge-success">Approved</span>';
+                if($data->is_approve == 0){
+                    $status = '<span class="badge badge-secondary">Menunggu</span>';
+                }
+                return $status;
+            })
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {
@@ -53,7 +59,7 @@ class LoanController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name'])
+            ->rawColumns(['action', 'client_name', 'status'])
             ->make(true);
     }
 
@@ -143,5 +149,53 @@ class LoanController extends Controller
             ->all();
         }
         return;
+    }
+
+    public function approval()
+    {
+        return view('loan.approval.index');
+    }
+
+    public function getApprovalList(Request $request)
+    {
+        $data  = Loan::where("is_approve", 0);
+
+        return DataTables::of($data)
+            ->addColumn('client_name', function ($data) {
+                return $data->client->name;
+            })
+            ->addColumn('total_amount', function ($data) {
+                return idr($data->total_amount);
+            })
+            ->addColumn('date', function ($data) {
+                return Carbon::parse($data->date)->format('d/m/Y');
+            })
+            ->addColumn('approve', function ($data) {
+                $action = '<span class="badge badge-success">Approved</span>';
+                if($data->is_approve == 0){
+                    $action = view('include.loan.approval.btn-approve', compact('data'))->render();
+                }
+                return $action;
+            })
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->search)) {
+                    $instance->where(function ($w) use ($request) {
+                        $search = $request->search;
+                        $w->orwhere('code', 'LIKE', "%$search%")
+                            ->orwhere('total_amount', 'LIKE', "%$search%");
+                    });
+                }
+
+                return $instance;
+            })
+            ->rawColumns(['client_name', 'approve'])
+            ->make(true);
+    }
+
+    public function approve(Loan $loan)
+    {
+        $loan->is_approve = 1;
+        $loan->save();
+        return $loan;
     }
 }

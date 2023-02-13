@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ArrearCheck;
+use App\Rules\GreatherThanZeroCheck;
 use App\Rules\MaxAmountCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,7 +29,7 @@ class StoreLoanRequest extends FormRequest
         return [
             'client_id' => ['required', new ArrearCheck()],
             'term_id' => ['required'],
-            'amount' => ['required', new MaxAmountCheck()],
+            'amount' => ['required', new MaxAmountCheck(), new GreatherThanZeroCheck()],
         ];
     }
 

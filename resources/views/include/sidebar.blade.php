@@ -24,76 +24,89 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses user')
-        <li class="nav-item{{ request()->is('users*') ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('users.index') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>User</span></a>
-        </li>
+    <li class="nav-item{{ request()->is('users*') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>User</span></a>
+    </li>
     @endcan
 
     @can('akses klien')
-        <li class="nav-item{{ request()->is('clients*') ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('clients.index') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Klien</span></a>
-        </li>
+    <li class="nav-item{{ request()->is('clients*') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('clients.index') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Klien</span></a>
+    </li>
     @endcan
 
     <!-- Nav Item - Pages Collapse Menu -->
     @can('akses tabungan')
-        <li
-            class="nav-item{{ request()->is('deposit-balances') || request()->is('deposit*') || request()->is('withdrawal*') ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('deposit.balances') }}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>Tabungan</span></a>
-        </li>
+    <li
+        class="nav-item{{ request()->is('deposit-balances') || request()->is('deposit*') || request()->is('withdrawal*') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('deposit.balances') }}">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Tabungan</span></a>
+    </li>
     @endcan
 
     @can('akses pinjaman')
-        <li
-            class="nav-item{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('debts') }}">
-                <i class="fas fa-fw fa-credit-card"></i>
-                <span>Pinjaman</span></a>
-        </li>
+    <li
+        class="nav-item{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') || request()->is('approvals') ? ' active' : '' }}">
+        <a class="nav-link{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') || request()->is('approvals') ? '' : ' collapsed' }}"
+            href="#" data-toggle="collapse" data-target="#debts" aria-expanded="true" aria-controls="debts">
+            <i class="fas fa-fw fa-credit-card"></i>
+            <span>Pinjaman</span>
+        </a>
+        <div id="debts"
+            class="collapse{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') || request()->is('approvals') ? ' show' : '' }}"
+            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+
+                <a class="collapse-item{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') ? ' active' : '' }}"
+                    href="{{ route('debts') }}">Data Pinjaman</a>
+
+                <a class="collapse-item{{ request()->is('approvals') ? ' active' : '' }}"
+                    href="{{ route('loan.approvals') }}">Approval</a>
+            </div>
+        </div>
+    </li>
     @endcan
 
     @can('akses tunggakan')
-        <li class="nav-item{{ request()->is('arrears*') ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('arrears.index') }}">
-                <i class="fas fa-fw fa-credit-card"></i>
-                <span>Tunggakan</span></a>
-        </li>
+    <li class="nav-item{{ request()->is('arrears*') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('arrears.index') }}">
+            <i class="fas fa-fw fa-credit-card"></i>
+            <span>Tunggakan</span></a>
+    </li>
     @endcan
 
     @can('akses laporan')
-        <li
-            class="nav-item{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' active' : '' }}">
-            <a class="nav-link{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? '' : ' collapsed' }}"
-                href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-flag"></i>
-                <span>Laporan</span>
-            </a>
-            <div id="collapseTwo"
-                class="collapse{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' show' : '' }}"
-                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
+    <li
+        class="nav-item{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' active' : '' }}">
+        <a class="nav-link{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? '' : ' collapsed' }}"
+            href="#" data-toggle="collapse" data-target="#report" aria-expanded="true" aria-controls="report">
+            <i class="fas fa-fw fa-flag"></i>
+            <span>Laporan</span>
+        </a>
+        <div id="report"
+            class="collapse{{ request()->is('report-deposit') || request()->is('report-withdrawal') || request()->is('report-loan') || request()->is('report-payment') ? ' show' : '' }}"
+            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
 
-                    <a class="collapse-item{{ request()->is('report-deposit') ? ' active' : '' }}"
-                        href="{{ route('deposit.report') }}">Laporan Tabungan</a>
+                <a class="collapse-item{{ request()->is('report-deposit') ? ' active' : '' }}"
+                    href="{{ route('deposit.report') }}">Laporan Tabungan</a>
 
-                    <a class="collapse-item{{ request()->is('report-withdrawal') ? ' active' : '' }}"
-                        href="{{ route('withdrawal.report') }}">Laporan Penarikan</a>
+                <a class="collapse-item{{ request()->is('report-withdrawal') ? ' active' : '' }}"
+                    href="{{ route('withdrawal.report') }}">Laporan Penarikan</a>
 
-                    <a class="collapse-item{{ request()->is('report-loan') ? ' active' : '' }}"
-                        href="{{ route('loan.report') }}">Laporan Pinjaman</a>
+                <a class="collapse-item{{ request()->is('report-loan') ? ' active' : '' }}"
+                    href="{{ route('loan.report') }}">Laporan Pinjaman</a>
 
-                    <a class="collapse-item{{ request()->is('report-payment') ? ' active' : '' }}"
-                        href="{{ route('payment.report') }}">Laporan Angsuran</a>
-                </div>
+                <a class="collapse-item{{ request()->is('report-payment') ? ' active' : '' }}"
+                    href="{{ route('payment.report') }}">Laporan Angsuran</a>
             </div>
-        </li>
+        </div>
+    </li>
     @endcan
 
     <!-- Divider -->

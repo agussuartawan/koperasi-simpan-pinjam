@@ -13,18 +13,18 @@
             </thead>
             <tbody>
                 @forelse ($deposits as $key => $deposit)
-                    <tr>
-                        <td class="text-center">{{ $key + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($deposit->date)->format('d/m/Y') }}</td>
-                        <td>{{ $deposit->code }}</td>
-                        <td>{{ $deposit->client->name }}</td>
-                        <td>{{ $deposit->description }}</td>
-                        <td class="text-right">{{ idr($deposit->amount) }}</td>
-                    </tr>
+                <tr>
+                    <td class="text-center">{{ $key + 1 }}</td>
+                    <td>{{ \Carbon\Carbon::parse($deposit->date)->format('d/m/Y') }}</td>
+                    <td>{{ $deposit->code }}</td>
+                    <td>{{ $deposit->client->name }}</td>
+                    <td>{{ $deposit->description }}</td>
+                    <td class="text-right">{{ idr($deposit->amount) }}</td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="6" class="text-center">Tidak ada data pada tabel</td>
-                    </tr>
+                <tr>
+                    <td colspan="6" class="text-center">Tidak ada data pada tabel</td>
+                </tr>
                 @endforelse
             </tbody>
             <tfoot>
