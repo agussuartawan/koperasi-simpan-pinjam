@@ -61,12 +61,13 @@
             class="collapse{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') || request()->is('approvals') ? ' show' : '' }}"
             aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-
                 <a class="collapse-item{{ request()->is('loans*') || request()->is('debts') || request()->is('payments') ? ' active' : '' }}"
                     href="{{ route('debts') }}">Data Pinjaman</a>
 
+                @can('akses persetujuan pinjaman')
                 <a class="collapse-item{{ request()->is('approvals') ? ' active' : '' }}"
                     href="{{ route('loan.approvals') }}">Approval</a>
+                @endcan
             </div>
         </div>
     </li>
