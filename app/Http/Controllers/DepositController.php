@@ -18,23 +18,31 @@ class DepositController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public $clientId;
+
+    public function index(Request $request)
     {
-        return view('deposit.index');
+        if(!$request->clientId){
+            return redirect()->route('dashboard');
+        }
+        $this->clientId = $request->clientId;
+        $clientName = Client::select('name')->where('id', $request->clientId)->first()->name;
+        return view('deposit.index', compact('clientName'));
     }
 
     public function getDepositList(Request $request)
     {
         $data  = Deposit::query();
+        $clientId = $this->clientId;
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = view('include.deposit.btn-action', compact('data'))->render();
                 return $action;
             })
-            ->addColumn('client_name', function ($data) {
-                return $data->client->name;
-            })
+            // ->addColumn('client_name', function ($data) {
+            //     return $data->client->name;
+            // })
             ->addColumn('deposit_type_name', function ($data) {
                 return $data->depositType->name;
             })
@@ -44,7 +52,10 @@ class DepositController extends Controller
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
             })
-            ->filter(function ($instance) use ($request) {
+            ->filter(function ($instance) use ($clientId, $request) {
+                if($clientId){
+                    $instance->where('client_id', $clientId);
+                }
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {
                         $search = $request->search;
@@ -55,7 +66,7 @@ class DepositController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name', 'deposit_type_name'])
+            ->rawColumns(['action', 'deposit_type_name'])
             ->make(true);
     }
 

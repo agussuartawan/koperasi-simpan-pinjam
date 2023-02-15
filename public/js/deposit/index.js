@@ -33,7 +33,6 @@ $(function () {
             },
             columns: [
                 { data: "code", name: "code" },
-                { data: "client_name", name: "client_name" },
                 { data: "date", name: "date" },
                 { data: "deposit_type_name", name: "deposit_type_name" },
                 { data: "amount", name: "amount", className: "text-right" },
@@ -45,7 +44,7 @@ $(function () {
                     text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Setoran Baru`,
                     className: "btn btn-info",
                     action: function (e, dt, node, config) {
-                        $('.modal-save').show();
+                        $(".modal-save").show();
                         $("#modal").modal("show");
                         fillModal($(this));
                     },
@@ -66,7 +65,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').hide();
+        $(".modal-save").hide();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -75,7 +74,7 @@ $(function () {
         event.preventDefault();
         var me = $(this);
 
-        $('.modal-save').show();
+        $(".modal-save").show();
         $("#modal").modal("show");
         fillModal(me);
     });
@@ -161,53 +160,56 @@ showErrorToast = () => {
 };
 
 makeSelectTwo = () => {
-    $("#client_id").select2({
-        theme: "bootstrap4",
-        ajax: {
-            url: "/client/search",
-            dataType: "json",
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                };
+    $("#client_id")
+        .select2({
+            theme: "bootstrap4",
+            ajax: {
+                url: "/client/search",
+                dataType: "json",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    };
 
-                return query;
+                    return query;
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id,
+                            };
+                        }),
+                    };
+                },
             },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id,
-                        };
-                    }),
-                };
-            },
-        },
-        placeholder: "Cari klien",
-        cache: true,
-    })
-    .on('select2:select', function(e){
-        var data = e.params.data.id;
-        $('#deposit_type').empty();
-        $.ajax({
-            url: '/deposit/deposit-type',
-            type: "GET",
-            dataType: "json",
-            data: {client_id:data},
-            success: function (response) {
-                $.each(response, function(id, name) {
-                    $('#deposit_type').append($('<option>', { 
-                        value: id,
-                        text : name 
-                    }));
-                });
-            },
-            error: function (xhr, status) {
-                alert("Terjadi kesalahan");
-            },
+            placeholder: "Cari klien",
+            cache: true,
+        })
+        .on("select2:select", function (e) {
+            var data = e.params.data.id;
+            $("#deposit_type").empty();
+            $.ajax({
+                url: "/deposit/deposit-type",
+                type: "GET",
+                dataType: "json",
+                data: { client_id: data },
+                success: function (response) {
+                    $.each(response, function (id, name) {
+                        $("#deposit_type").append(
+                            $("<option>", {
+                                value: id,
+                                text: name,
+                            })
+                        );
+                    });
+                },
+                error: function (xhr, status) {
+                    alert("Terjadi kesalahan");
+                },
+            });
         });
-    });
 };
 
 makeCurrency = () => {

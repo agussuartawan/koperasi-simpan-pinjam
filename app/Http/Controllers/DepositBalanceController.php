@@ -37,7 +37,9 @@ class DepositBalanceController extends Controller
             ->addColumn('updated_at', function ($data) {
                 return $data->updated_at->diffForhumans();
             })
-            ->orderColumn('updated_at', '-updated_at $1')
+            ->addColumn('action', function ($data) {
+                return view('include.deposit.balance.btn-action', compact('data'))->render();
+            })
             ->filter(function ($instance) use ($request) {
                 if($request->clientType){
                     $instance->whereHas('client', function ($query) use ($request) {
@@ -64,7 +66,7 @@ class DepositBalanceController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['client_code', 'client_name', 'amount', 'updated_at'])
+            ->rawColumns(['client_code', 'client_name', 'amount', 'updated_at', 'action'])
             ->make(true);
     }
 }

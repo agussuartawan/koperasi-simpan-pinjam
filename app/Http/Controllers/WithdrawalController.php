@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\WithdrawalCreated;
 use App\Models\Withdrawal;
 use App\Http\Requests\UpdateWithdrawalRequest;
+use App\Models\Client;
 use App\Models\DepositBalance;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -13,30 +14,37 @@ use Illuminate\Support\Facades\DB;
 
 class WithdrawalController extends Controller
 {
+    public $clientId;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('withdrawal.index');
+        if(!$request->clientId){
+            return redirect()->route('dashboard');
+        }
+        $this->clientId = $request->clientId;
+        $clientName = Client::select('name')->where('id', $request->clientId)->first()->name;
+        return view('withdrawal.index', compact('clientName'));
     }
 
     public function getWithdrawalList(Request $request)
     {
         $data  = Withdrawal::query();
+        $clientId = $this->clientId;
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = view('include.withdrawal.btn-action', compact('data'))->render();
                 return $action;
             })
-            ->addColumn('client_name', function ($data) {
-                return $data->client->name;
-            })
+            // ->addColumn('client_name', function ($data) {
+            //     return $data->client->name;
+            // })
             // ->addColumn('deposit_type_name', function ($data) {
-            //     return $data->deposit->depositType->name;
+            //     return $data->deposit->depositType->name ?? '';
             // })
             ->addColumn('amount', function ($data) {
                 return idr($data->amount);
@@ -44,7 +52,10 @@ class WithdrawalController extends Controller
             ->addColumn('date', function ($data) {
                 return Carbon::parse($data->date)->format('d/m/Y');
             })
-            ->filter(function ($instance) use ($request) {
+            ->filter(function ($instance) use ($request, $clientId) {
+                if($clientId){
+                    $instance->where('client_id', $clientId);
+                }
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {
                         $search = $request->search;
@@ -55,7 +66,7 @@ class WithdrawalController extends Controller
 
                 return $instance;
             })
-            ->rawColumns(['action', 'client_name', 'deposit_type_name'])
+            ->rawColumns(['action', 'deposit_type_name'])
             ->make(true);
     }
 

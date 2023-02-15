@@ -37,24 +37,25 @@ $(function () {
                 { data: "client_name", name: "client_name" },
                 { data: "amount", name: "amount" },
                 { data: "updated_at", name: "updated_at" },
+                { data: "action", name: "action", orderable: false },
             ],
-            dom: "<'row'<'col'B><'col filter'><'col'f>>tipr",
-            buttons: [
-                {
-                    text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Setoran`,
-                    className: "btn btn-info",
-                    action: function (e, dt, node, config) {
-                        window.location.href = "/deposits";
-                    },
-                },
-                {
-                    text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Tarikan`,
-                    className: "btn btn-info",
-                    action: function (e, dt, node, config) {
-                        window.location.href = "/withdrawals";
-                    },
-                },
-            ],
+            dom: "<'row'<'col-2 filter'><'col'f>>tipr",
+            // buttons: [
+            //     {
+            //         text: `<i class="fa fa-fw fa-arrow-circle-up" aria-hidden="true"></i> Setoran`,
+            //         className: "btn btn-info",
+            //         action: function (e, dt, node, config) {
+            //             window.location.href = "/deposits";
+            //         },
+            //     },
+            //     {
+            //         text: `<i class="fa fa-fw fa-arrow-circle-down" aria-hidden="true"></i> Tarikan`,
+            //         className: "btn btn-info",
+            //         action: function (e, dt, node, config) {
+            //             window.location.href = "/withdrawals";
+            //         },
+            //     },
+            // ],
             initComplete: function (settings, json) {
                 $('input[type="search"').unbind();
                 $('input[type="search"').bind("keyup", function (e) {
