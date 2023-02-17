@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\Loan;
 use Illuminate\Contracts\Validation\Rule;
 
 class GreatherThanZeroCheck implements Rule
@@ -26,7 +27,7 @@ class GreatherThanZeroCheck implements Rule
     public function passes($attribute, $value)
     {
         $amount = (float)preg_replace('/[Rp. ]/', '', $value);
-        if($amount == 0){
+        if($amount < Loan::MIN_AMOUNT){
             return false;
         }
         return true;
@@ -39,6 +40,6 @@ class GreatherThanZeroCheck implements Rule
      */
     public function message()
     {
-        return 'Jumlah pinjaman tidak boleh 0.';
+        return 'Jumlah pinjaman tidak boleh kurang dari <strong>'. idr(Loan::MIN_AMOUNT) .'</strong>.';
     }
 }
