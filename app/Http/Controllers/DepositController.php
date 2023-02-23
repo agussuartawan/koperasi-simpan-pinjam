@@ -18,17 +18,13 @@ class DepositController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public $clientId;
-
     public function index(Request $request)
     {
         if(!$request->clientId){
             return redirect()->route('dashboard');
         }
-        $this->clientId = $request->clientId;
 
-        $client = Client::find($this->clientId);
-        $clientName = $client->name;
+        $client = Client::find($request->clientId);
 
         if ($client->client_type_id == Client::NASABAH) {
             $depositTypes = DepositType::where('id', Deposit::SIMPANAN_SUKARELA)->get();
@@ -36,14 +32,13 @@ class DepositController extends Controller
         if ($client->client_type_id == Client::ANGGOTA) {
             $depositTypes = DepositType::get();
         }
-
-        return view('deposit.index', compact('clientName', 'depositTypes'));
+        return view('deposit.index', compact('client', 'depositTypes'));
     }
 
     public function getDepositList(Request $request)
     {
         $data  = Deposit::query();
-        $clientId = $this->clientId;
+        $clientId = $request->clientId;
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {

@@ -30,6 +30,7 @@ $(function () {
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
                     d.depositType = $("#deposit-type").val();
+                    d.clientId = $("#client-id").val();
                 },
             },
             columns: [

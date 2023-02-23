@@ -27,7 +27,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Data Setoran <strong>{{ $clientName }}</strong></h6>
+        <h6 class="m-0 font-weight-bold text-primary">Data Setoran <strong>{{ $client->name }}</strong></h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -49,6 +49,8 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" value="{{ $client->id }}" id="client-id">
 
 <div id="filter-element" style="display: none;">
     <div class="row">

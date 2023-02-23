@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class WithdrawalController extends Controller
 {
-    public $clientId;
     /**
      * Display a listing of the resource.
      *
@@ -25,15 +24,14 @@ class WithdrawalController extends Controller
         if(!$request->clientId){
             return redirect()->route('dashboard');
         }
-        $this->clientId = $request->clientId;
-        $clientName = Client::select('name')->where('id', $request->clientId)->first()->name;
-        return view('withdrawal.index', compact('clientName'));
+        $client = Client::find($request->clientId);
+        return view('withdrawal.index', compact('client'));
     }
 
     public function getWithdrawalList(Request $request)
     {
         $data  = Withdrawal::query();
-        $clientId = $this->clientId;
+        $clientId = $request->clientId;
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {

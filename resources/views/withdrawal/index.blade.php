@@ -34,7 +34,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Data Tarikan <strong>{{ $clientName }}</strong></h6>
+        <h6 class="m-0 font-weight-bold text-primary">Data Tarikan <strong>{{ $client->name }}</strong></h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -56,6 +56,8 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" value="{{ $client->id }}" id="client-id">
 
 @include('include.modal')
 

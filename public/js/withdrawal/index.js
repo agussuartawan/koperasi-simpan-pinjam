@@ -29,6 +29,7 @@ $(function () {
                 url: "withdrawal/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
+                    d.clientId = $("#client-id").val();
                 },
             },
             columns: [
