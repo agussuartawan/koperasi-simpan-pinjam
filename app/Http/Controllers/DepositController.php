@@ -26,8 +26,18 @@ class DepositController extends Controller
             return redirect()->route('dashboard');
         }
         $this->clientId = $request->clientId;
-        $clientName = Client::select('name')->where('id', $request->clientId)->first()->name;
-        return view('deposit.index', compact('clientName'));
+
+        $client = Client::find($this->clientId);
+        $clientName = $client->name;
+
+        if ($client->client_type_id == Client::NASABAH) {
+            $depositTypes = DepositType::where('id', Deposit::SIMPANAN_SUKARELA)->get();
+        }
+        if ($client->client_type_id == Client::ANGGOTA) {
+            $depositTypes = DepositType::get();
+        }
+
+        return view('deposit.index', compact('clientName', 'depositTypes'));
     }
 
     public function getDepositList(Request $request)
@@ -55,6 +65,9 @@ class DepositController extends Controller
             ->filter(function ($instance) use ($clientId, $request) {
                 if($clientId){
                     $instance->where('client_id', $clientId);
+                }
+                if($request->depositType){
+                    $instance->where('deposit_type_id', $request->depositType);
                 }
                 if (!empty($request->search)) {
                     $instance->where(function ($w) use ($request) {

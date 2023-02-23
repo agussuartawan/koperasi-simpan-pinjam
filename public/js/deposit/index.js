@@ -29,6 +29,7 @@ $(function () {
                 url: "deposit/get-list",
                 data: function (d) {
                     d.search = $('input[type="search"]').val();
+                    d.depositType = $("#deposit-type").val();
                 },
             },
             columns: [
@@ -38,18 +39,7 @@ $(function () {
                 { data: "amount", name: "amount", className: "text-right" },
                 { data: "action", name: "action", orderable: false },
             ],
-            dom: "<'row'<'col'B><'col'f>>tipr",
-            buttons: [
-                {
-                    text: `<i class="fa fa-fw fa-plus-circle" aria-hidden="true"></i> Setoran Baru`,
-                    className: "btn btn-info",
-                    action: function (e, dt, node, config) {
-                        $(".modal-save").show();
-                        $("#modal").modal("show");
-                        fillModal($(this));
-                    },
-                },
-            ],
+            dom: "<'row'<'col btn-add'><'col'f>>tipr",
             initComplete: function (settings, json) {
                 $('input[type="search"').unbind();
                 $('input[type="search"').bind("keyup", function (e) {
@@ -59,6 +49,19 @@ $(function () {
                 });
             },
         });
+
+        const filterElement = $("#filter-element").html();
+        $("div.btn-add").html(filterElement);
+
+        $("#deposit-type").change(function () {
+            dTable.draw();
+        });
+    });
+
+    $("body").on("click", "#btn-add", function () {
+        $(".modal-save").show();
+        $("#modal").modal("show");
+        fillModal($(this));
     });
 
     $("body").on("click", ".btn-show", function (event) {
